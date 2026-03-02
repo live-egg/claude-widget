@@ -473,19 +473,11 @@ function showTyping(show) {
   }
 }
 
-async function callClaude(userMessage) {
-  conversationHistory.push({ role: 'user', content: userMessage });
-
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1000,
-      system: SYSTEM_PROMPT,
-      messages: conversationHistory
-    })
-  });
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': 'sk-ant-api03-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',
+      'anthropic-version': '2023-06-01'
+    },
 
   const data = await response.json();
   const reply = data.content?.[0]?.text || "I'll be right with you — let me check on that for you.";
