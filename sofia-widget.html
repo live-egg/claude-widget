@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sofia — AURA Beauty Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f0e0c;
+    --card: #1a1917;
+    --card2: #222120;
+    --gold: #c9973a;
+    --gold-light: #d4a84b;
+    --gold-glow: rgba(201,151,58,0.15);
+    --white: #f5f0e8;
+    --muted: #7a7060;
+    --border: rgba(201,151,58,0.12);
+    --online: #4ade80;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--white);
+    overflow: hidden;
+  }
+
+  .widget {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(201,151,58,0.08), 0 0 0 1px var(--border);
+    position: relative;
+  }
+
+  /* Header */
+  .header {
+    padding: 16px 20px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #c9973a, #8a6020);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: var(--bg);
+    font-weight: 500;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .avatar::after {
+    content: '';
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 9px;
+    height: 9px;
+    background: var(--online);
+    border-radius: 50%;
+    border: 2px solid var(--card);
+  }
+
+  .header-info { flex: 1; min-width: 0; }
+
+  .header-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    color: var(--white);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  .header-status {
+    font-size: 11px;
+    color: var(--online);
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .header-status::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    background: var(--online);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .header-brand {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.4;
+  }
+
+  .header-brand span {
+    display: block;
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+  }
+
+  /* Messages */
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scroll-behavior: smooth;
+  }
+
+  .messages::-webkit-scrollbar { width: 3px; }
+  .messages::-webkit-scrollbar-track { background: transparent; }
+  .messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .msg {
+    display: flex;
+    flex-direction: column;
+    max-width: 82%;
+    animation: fadeUp 0.3s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg.sofia { align-self: flex-start; }
+  .msg.user { align-self: flex-end; }
+
+  .bubble {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 13.5px;
+    line-height: 1.55;
+    letter-spacing: 0.01em;
+  }
+
+  .sofia .bubble {
+    background: var(--card2);
+    color: var(--white);
+    border-bottom-left-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .user .bubble {
+    background: linear-gradient(135deg, #c9973a, #a87828);
+    color: var(--bg);
+    border-bottom-right-radius: 4px;
+    font-weight: 500;
+  }
+
+  .msg-time {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+    padding: 0 4px;
+  }
+
+  .sofia .msg-time { align-self: flex-start; }
+  .user .msg-time { align-self: flex-end; }
+
+  /* Typing indicator */
+  .typing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 14px;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    border-bottom-left-radius: 4px;
+    width: fit-content;
+    align-self: flex-start;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .typing.visible { opacity: 1; }
+
+  .typing-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: typingBounce 1.2s infinite;
+  }
+
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30% { transform: translateY(-4px); opacity: 1; }
+  }
+
+  /* Input */
+  .input-area {
+    padding: 12px 16px;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+
+  .input-wrap {
+    flex: 1;
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 14px;
+    transition: border-color 0.2s;
+  }
+
+  .input-wrap:focus-within {
+    border-color: rgba(201,151,58,0.4);
+  }
+
+  textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.5;
+    resize: none;
+    max-height: 80px;
+    min-height: 20px;
+  }
+
+  textarea::placeholder { color: var(--muted); }
+
+  .send-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #c9973a, #a87828);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .send-btn:hover { opacity: 0.85; }
+  .send-btn:active { transform: scale(0.95); }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .send-btn svg { width: 16px; height: 16px; fill: var(--bg); }
+
+  /* Quick replies */
+  .quick-replies {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 0 16px 10px;
+    flex-shrink: 0;
+  }
+
+  .quick-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11.5px;
+    padding: 5px 11px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .quick-btn:hover {
+    background: var(--gold-glow);
+    border-color: var(--gold);
+  }
+
+  /* Watermark */
+  .watermark {
+    text-align: center;
+    padding: 6px;
+    font-size: 9.5px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+
+  .watermark a {
+    color: var(--gold);
+    text-decoration: none;
+    opacity: 0.7;
+  }
+</style>
+</head>
+<body>
+
+<div class="widget">
+  <div class="header">
+    <div class="avatar">S</div>
+    <div class="header-info">
+      <div class="header-name">Sofia</div>
+      <div class="header-status">Online now</div>
+    </div>
+    <div class="header-brand">
+      AURA Beauty Studio
+      <span>AI Administrator</span>
+    </div>
+  </div>
+
+  <div class="messages" id="messages">
+    <div class="typing" id="typing">
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+      <div class="typing-dot"></div>
+    </div>
+  </div>
+
+  <div class="quick-replies" id="quickReplies">
+    <button class="quick-btn" onclick="sendQuick('Book an appointment')">Book appointment</button>
+    <button class="quick-btn" onclick="sendQuick('What services do you offer?')">Services & prices</button>
+    <button class="quick-btn" onclick="sendQuick('What are your opening hours?')">Opening hours</button>
+  </div>
+
+  <div class="input-area">
+    <div class="input-wrap">
+      <textarea id="userInput" placeholder="Message Sofia…" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+    </div>
+    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="watermark">Powered by <a href="#" target="_blank">Sofia AI</a></div>
+</div>
+
+<script>
+const SYSTEM_PROMPT = `You are Sofia, the AI administrator for AURA Beauty Studio — a premium beauty salon in London.
+
+YOUR PERSONALITY:
+- Warm, elegant, and professional. Like a luxury hotel concierge.
+- Never robotic. Never use filler words like "Great!", "Perfect!", "Of course!", "Certainly!", "Absolutely!"
+- Concise. One message bubble per response. Maximum 2-3 sentences.
+- Maximum 1 emoji per message. Use sparingly — only when it feels natural.
+- Detect the client's language automatically and respond in the same language.
+- Never mention you are an AI unless directly asked. If asked, say: "I'm Sofia, AURA's virtual administrator — here to help you 24/7."
+
+AURA BEAUTY STUDIO:
+- Location: 14 Mayfair Lane, London W1K 3AR
+- Hours: Monday–Saturday 9:00–20:00, Sunday 10:00–17:00
+- Instagram: @aura.beauty.london
+- Phone: +44 20 7946 0382
+
+SERVICES & PRICES:
+Nails:
+- Classic Manicure — £35 (45 min)
+- Gel Manicure — £45 (60 min)
+- Classic Pedicure — £45 (60 min)
+- Gel Pedicure — £55 (75 min)
+- Nail Art (per nail) — from £5
+
+Lashes & Brows:
+- Lash Lift & Tint — £65 (60 min)
+- Classic Lash Extensions — £85 (90 min)
+- Volume Lash Extensions — £110 (120 min)
+- Brow Lamination — £55 (60 min)
+- Brow Tint — £25 (30 min)
+- Brow Shaping — £20 (20 min)
+
+Facials:
+- Express Facial — £55 (45 min)
+- Signature AURA Facial — £95 (75 min)
+- Anti-Aging Treatment — £120 (90 min)
+
+TEAM:
+- Elena — Senior Nail Technician (specialist in nail art)
+- Maria — Lash & Brow Specialist
+- Anna — Facialist
+- Sophie — Junior Nail Technician
+
+BOOKING RULES:
+- When a client wants to book, ask for: preferred service, preferred date and time, and their name.
+- Confirm all details in one final message.
+- If a specific slot is requested, confirm it as available (simulate availability for demo purposes).
+- Suggest the nearest available slot if they are flexible.
+- Always confirm the booking with: service, date, time, duration, price, and specialist name.
+
+REMINDERS & REBOOKING:
+- If a client mentions they visited before, warmly suggest rebooking.
+- For no-show prevention, mention that a reminder will be sent 24 hours before.
+
+ESCALATION:
+- If a client has a complaint or complex issue, say: "I want to make sure this is handled perfectly — let me connect you with our team directly." Then provide the phone number or Instagram.
+
+RESPONSE STYLE:
+- Never write more than 3 sentences in one message.
+- Never use bullet points or numbered lists in responses.
+- Write naturally, like a warm human receptionist.
+- End booking confirmations with the salon address.
+- Never repeat the same opening phrase twice in a conversation.`;
+
+let conversationHistory = [];
+let isTyping = false;
+
+function getTime() {
+  return new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+}
+
+function addMessage(text, role) {
+  const messages = document.getElementById('messages');
+  const typing = document.getElementById('typing');
+
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `msg ${role}`;
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
+
+  const time = document.createElement('div');
+  time.className = 'msg-time';
+  time.textContent = getTime();
+
+  msgDiv.appendChild(bubble);
+  msgDiv.appendChild(time);
+
+  messages.insertBefore(msgDiv, typing);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function showTyping(show) {
+  const typing = document.getElementById('typing');
+  isTyping = show;
+  typing.classList.toggle('visible', show);
+  if (show) {
+    const messages = document.getElementById('messages');
+    messages.scrollTop = messages.scrollHeight;
+  }
+}
+
+async function callClaude(userMessage) {
+  conversationHistory.push({ role: 'user', content: userMessage });
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1000,
+      system: SYSTEM_PROMPT,
+      messages: conversationHistory
+    })
+  });
+
+  const data = await response.json();
+  const reply = data.content?.[0]?.text || "I'll be right with you — let me check on that for you.";
+
+  conversationHistory.push({ role: 'assistant', content: reply });
+  return reply;
+}
+
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text || isTyping) return;
+
+  input.value = '';
+  autoResize(input);
+
+  document.getElementById('quickReplies').style.display = 'none';
+  document.getElementById('sendBtn').disabled = true;
+
+  addMessage(text, 'user');
+  showTyping(true);
+
+  try {
+    const reply = await callClaude(text);
+    await new Promise(r => setTimeout(r, 400));
+    showTyping(false);
+    addMessage(reply, 'sofia');
+  } catch (e) {
+    showTyping(false);
+    addMessage("I'm having a moment — please try again.", 'sofia');
+  }
+
+  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('userInput').focus();
+}
+
+function sendQuick(text) {
+  document.getElementById('userInput').value = text;
+  sendMessage();
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 80) + 'px';
+}
+
+// Initial greeting
+window.addEventListener('load', async () => {
+  await new Promise(r => setTimeout(r, 800));
+  showTyping(true);
+  await new Promise(r => setTimeout(r, 1200));
+  showTyping(false);
+  addMessage("Welcome to AURA Beauty Studio 💛 I'm Sofia — how can I help you today?", 'sofia');
+});
+</script>
+</body>
+</html>
