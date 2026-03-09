@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     const body = req.body;
 
     console.log('Incoming body object:', body.object);
-
+console.log('Full body:', JSON.stringify(body));
     if (body.object === 'instagram') {
       for (const entry of body.entry) {
         const messaging = entry.messaging;
