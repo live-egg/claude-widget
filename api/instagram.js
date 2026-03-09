@@ -1,7 +1,6 @@
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
 
-  // Webhook verification (GET request from Meta)
   if (req.method === 'GET') {
     const mode = req.query['hub.mode'];
     const token = req.query['hub.verify_token'];
@@ -15,21 +14,30 @@ export default async function handler(req, res) {
     }
   }
 
-  // Handle incoming messages (POST request from Meta)
   if (req.method === 'POST') {
     const body = req.body;
 
     console.log('Incoming body object:', body.object);
-console.log('Full body:', JSON.stringify(body));
+    console.log('Entry count:', body.entry?.length);
+    console.log('Entry[0] keys:', JSON.stringify(Object.keys(body.entry?.[0] || {})));
+    console.log('Entry[0]:', JSON.stringify(body.entry?.[0]));
+
     if (body.object === 'instagram') {
       for (const entry of body.entry) {
         const messaging = entry.messaging;
-        if (!messaging) {
-          console.log('No messaging in entry, skipping');
+        const changes = entry.changes;
+
+        console.log('messaging:', JSON.stringify(messaging));
+        console.log('changes:', JSON.stringify(changes));
+
+        if (!messaging && !changes) {
+          console.log('No messaging or changes in entry, skipping');
           continue;
         }
 
-        for (const event of messaging) {
+        const events = messaging || changes?.map(c => c.value) || [];
+
+        for (const event of events) {
           if (event.message && !event.message.is_echo) {
             const senderId = event.sender.id;
             const recipientId = event.recipient.id;
@@ -45,7 +53,6 @@ console.log('Full body:', JSON.stringify(body));
             }
 
             try {
-              // Get salon data from Airtable by instagram_id
               console.log('Searching Airtable for instagram_id:', recipientId);
               const airtableRes = await fetch(
                 `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Clients?filterByFormula={instagram_id}="${recipientId}"`,
@@ -68,7 +75,6 @@ console.log('Full body:', JSON.stringify(body));
               console.log('Salon name:', salon.salon_name);
               console.log('Token exists:', !!salon.instagram_token);
 
-              // Build personalized Sofia prompt
               const systemPrompt = `# SOFIA — Master System Prompt v2.0
 # ${salon.salon_name}
 
@@ -128,7 +134,6 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
 - Never ends a conversation without a clear next step
 - Never breaks character`;
 
-              // Get AI response from Claude
               console.log('Calling Claude API...');
               const aiResponse = await fetch('https://api.anthropic.com/v1/messages', {
                 method: 'POST',
@@ -149,15 +154,14 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
 
               const aiData = await aiResponse.json();
               console.log('Claude response status:', aiResponse.status);
-              console.log('Claude response:', JSON.stringify(aiData));
+              console.log('Claude content:', JSON.stringify(aiData.content));
 
               const replyText = aiData.content?.[0]?.text;
               if (!replyText) {
-                console.error('No reply text from Claude');
+                console.error('No reply text from Claude, full response:', JSON.stringify(aiData));
                 continue;
               }
 
-              // Send reply via Facebook Graph API
               console.log('Sending reply to Facebook API...');
               const fbRes = await fetch(`https://graph.facebook.com/v21.0/me/messages?access_token=${salon.instagram_token}`, {
                 method: 'POST',
@@ -172,7 +176,8 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
               console.log('FB response:', JSON.stringify(fbData));
 
             } catch (error) {
-              console.error('Error processing message:', error);
+              console.error('Error processing message:', error.message);
+              console.error('Stack:', error.stack);
             }
           }
         }
