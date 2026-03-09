@@ -132,18 +132,18 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
               const aiData = await aiResponse.json();
               const replyText = aiData.content[0].text;
 
-              // Send reply via Instagram API
-              await fetch(`https://graph.facebook.com/v21.0/me/messages`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  recipient: { id: senderId },
-                  message: { text: replyText },
-                  access_token: salon.instagram_token
-                })
-              });
+              const fbRes = await fetch(`https://graph.facebook.com/v21.0/me/messages?access_token=${salon.instagram_token}`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    recipient: { id: senderId },
+    message: { text: replyText }
+  })
+});
+const fbData = await fbRes.json();
+console.log('FB response:', JSON.stringify(fbData));
+console.log('Sender ID:', senderId);
+console.log('Token exists:', !!salon.instagram_token);
 
             } catch (error) {
               console.error('Error processing message:', error);
