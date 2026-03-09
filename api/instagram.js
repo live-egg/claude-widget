@@ -166,7 +166,17 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
               }
 
               console.log('Sending reply to Facebook API...');
-              const fbRes = await fetch(`https://graph.facebook.com/v21.0/me/messages?access_token=${salon.instagram_token}`, {
+             const fbRes = await fetch(`https://graph.instagram.com/v21.0/me/messages`,
+  method: 'POST',
+  headers: { 
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${salon.instagram_token}`
+  },
+  body: JSON.stringify({
+    recipient: { id: senderId },
+    message: { text: replyText }
+  })
+}); {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
