@@ -37,11 +37,14 @@ export default async function handler(req, res) {
 
         const events = messaging || changes?.map(c => c.value) || [];
 
-        for (const event of events) {
-          if (event.message && !event.message.is_echo) {
-            const senderId = event.sender.id;
-            const recipientId = event.recipient.id;
-            const messageText = event.message.text;
+       for (const event of events) {
+          const isMessage = event.message && !event.message.is_echo;
+          const isMessageEdit = event.message_edit;
+
+          if (isMessage || isMessageEdit) {
+            const senderId = event.sender?.id;
+            const recipientId = event.recipient?.id || entry.id;
+            const messageText = event.message?.text || event.message_edit?.text || null;
 
             console.log('Sender ID:', senderId);
             console.log('Recipient ID:', recipientId);
