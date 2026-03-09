@@ -37,7 +37,7 @@ export default async function handler(req, res) {
 
         const events = messaging || changes?.map(c => c.value) || [];
 
-       for (const event of events) {
+        for (const event of events) {
           const isMessage = event.message && !event.message.is_echo;
           const isMessageEdit = event.message_edit;
 
@@ -165,20 +165,13 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
                 continue;
               }
 
-              console.log('Sending reply to Facebook API...');
-             const fbRes = await fetch(`https://graph.instagram.com/v21.0/me/messages`,
-  method: 'POST',
-  headers: { 
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${salon.instagram_token}`
-  },
-  body: JSON.stringify({
-    recipient: { id: senderId },
-    message: { text: replyText }
-  })
-}); {
+              console.log('Sending reply to Instagram API...');
+              const fbRes = await fetch('https://graph.instagram.com/v21.0/me/messages', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${salon.instagram_token}`
+                },
                 body: JSON.stringify({
                   recipient: { id: senderId },
                   message: { text: replyText }
@@ -186,7 +179,7 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
               });
 
               const fbData = await fbRes.json();
-              console.log('FB response:', JSON.stringify(fbData));
+              console.log('Instagram API response:', JSON.stringify(fbData));
 
             } catch (error) {
               console.error('Error processing message:', error.message);
