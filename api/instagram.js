@@ -133,7 +133,7 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
               const replyText = aiData.content[0].text;
 
               // Send reply via Instagram API
-              await fetch(`https://graph.instagram.com/v21.0/me/messages`, {
+              await fetch(`https://graph.facebook.com/v21.0/me/messages`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'
