@@ -19,21 +19,34 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const body = req.body;
 
+    console.log('Incoming body object:', body.object);
+
     if (body.object === 'instagram') {
       for (const entry of body.entry) {
         const messaging = entry.messaging;
-        if (!messaging) continue;
+        if (!messaging) {
+          console.log('No messaging in entry, skipping');
+          continue;
+        }
 
         for (const event of messaging) {
           if (event.message && !event.message.is_echo) {
             const senderId = event.sender.id;
-            const recipientId = event.recipient.id; // Instagram account ID of the salon
+            const recipientId = event.recipient.id;
             const messageText = event.message.text;
 
-            if (!messageText) continue;
+            console.log('Sender ID:', senderId);
+            console.log('Recipient ID:', recipientId);
+            console.log('Message text:', messageText);
+
+            if (!messageText) {
+              console.log('No text in message, skipping');
+              continue;
+            }
 
             try {
               // Get salon data from Airtable by instagram_id
+              console.log('Searching Airtable for instagram_id:', recipientId);
               const airtableRes = await fetch(
                 `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Clients?filterByFormula={instagram_id}="${recipientId}"`,
                 {
@@ -44,12 +57,16 @@ export default async function handler(req, res) {
               );
 
               const airtableData = await airtableRes.json();
+              console.log('Airtable records found:', airtableData.records?.length);
               const salon = airtableData.records?.[0]?.fields;
 
               if (!salon) {
                 console.error('Salon not found for instagram_id:', recipientId);
                 continue;
               }
+
+              console.log('Salon name:', salon.salon_name);
+              console.log('Token exists:', !!salon.instagram_token);
 
               // Build personalized Sofia prompt
               const systemPrompt = `# SOFIA — Master System Prompt v2.0
@@ -112,6 +129,7 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
 - Never breaks character`;
 
               // Get AI response from Claude
+              console.log('Calling Claude API...');
               const aiResponse = await fetch('https://api.anthropic.com/v1/messages', {
                 method: 'POST',
                 headers: {
@@ -130,20 +148,28 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
               });
 
               const aiData = await aiResponse.json();
-              const replyText = aiData.content[0].text;
+              console.log('Claude response status:', aiResponse.status);
+              console.log('Claude response:', JSON.stringify(aiData));
 
+              const replyText = aiData.content?.[0]?.text;
+              if (!replyText) {
+                console.error('No reply text from Claude');
+                continue;
+              }
+
+              // Send reply via Facebook Graph API
+              console.log('Sending reply to Facebook API...');
               const fbRes = await fetch(`https://graph.facebook.com/v21.0/me/messages?access_token=${salon.instagram_token}`, {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    recipient: { id: senderId },
-    message: { text: replyText }
-  })
-});
-const fbData = await fbRes.json();
-console.log('FB response:', JSON.stringify(fbData));
-console.log('Sender ID:', senderId);
-console.log('Token exists:', !!salon.instagram_token);
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  recipient: { id: senderId },
+                  message: { text: replyText }
+                })
+              });
+
+              const fbData = await fbRes.json();
+              console.log('FB response:', JSON.stringify(fbData));
 
             } catch (error) {
               console.error('Error processing message:', error);
