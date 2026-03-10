@@ -17,68 +17,70 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const body = req.body;
 
-    console.log('Incoming body object:', body.object);
-    console.log('Entry count:', body.entry?.length);
-    console.log('Entry[0] keys:', JSON.stringify(Object.keys(body.entry?.[0] || {})));
-    console.log('Entry[0]:', JSON.stringify(body.entry?.[0]));
+    console.log('Full body:', JSON.stringify(body));
 
     if (body.object === 'instagram') {
       for (const entry of body.entry) {
         const messaging = entry.messaging;
-        const changes = entry.changes;
 
-        console.log('messaging:', JSON.stringify(messaging));
-        console.log('changes:', JSON.stringify(changes));
+        if (!messaging) continue;
 
-        if (!messaging && !changes) {
-          console.log('No messaging or changes in entry, skipping');
-          continue;
-        }
+        for (const event of messaging) {
+          // Skip message_edit events completely
+          if (event.message_edit) {
+            console.log('Skipping message_edit event');
+            continue;
+          }
 
-        const events = messaging || changes?.map(c => c.value) || [];
+          // Skip echo messages
+          if (!event.message || event.message.is_echo) {
+            console.log('Skipping echo or empty message');
+            continue;
+          }
 
-        for (const event of events) {
-          const isMessage = event.message && !event.message.is_echo;
-          const isMessageEdit = event.message_edit;
+          // Skip messages without text
+          if (!event.message.text) {
+            console.log('Skipping message without text');
+            continue;
+          }
 
-          if (isMessage || isMessageEdit) {
-            const senderId = event.sender?.id;
-            const recipientId = event.recipient?.id || entry.id;
-            const messageText = event.message?.text || event.message_edit?.text || null;
+          const senderId = event.sender?.id;
+          const recipientId = event.recipient?.id;
+          const messageText = event.message.text;
 
-            console.log('Sender ID:', senderId);
-            console.log('Recipient ID:', recipientId);
-            console.log('Message text:', messageText);
+          console.log('Processing message from:', senderId);
+          console.log('To recipient:', recipientId);
+          console.log('Text:', messageText);
 
-            if (!messageText) {
-              console.log('No text in message, skipping');
+          if (!senderId || !recipientId) {
+            console.log('Missing sender or recipient ID, skipping');
+            continue;
+          }
+
+          try {
+            // Get salon data from Airtable
+            console.log('Searching Airtable for instagram_id:', recipientId);
+            const airtableRes = await fetch(
+              `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Clients?filterByFormula={instagram_id}="${recipientId}"`,
+              {
+                headers: {
+                  Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`
+                }
+              }
+            );
+
+            const airtableData = await airtableRes.json();
+            console.log('Airtable records found:', airtableData.records?.length);
+            const salon = airtableData.records?.[0]?.fields;
+
+            if (!salon) {
+              console.error('Salon not found for instagram_id:', recipientId);
               continue;
             }
 
-            try {
-              console.log('Searching Airtable for instagram_id:', recipientId);
-              const airtableRes = await fetch(
-                `https://api.airtable.com/v0/${process.env.AIRTABLE_BASE_ID}/Clients?filterByFormula={instagram_id}="${recipientId}"`,
-                {
-                  headers: {
-                    Authorization: `Bearer ${process.env.AIRTABLE_API_KEY}`
-                  }
-                }
-              );
+            console.log('Salon found:', salon.salon_name);
 
-              const airtableData = await airtableRes.json();
-              console.log('Airtable records found:', airtableData.records?.length);
-              const salon = airtableData.records?.[0]?.fields;
-
-              if (!salon) {
-                console.error('Salon not found for instagram_id:', recipientId);
-                continue;
-              }
-
-              console.log('Salon name:', salon.salon_name);
-              console.log('Token exists:', !!salon.instagram_token);
-
-              const systemPrompt = `# SOFIA — Master System Prompt v2.0
+            const systemPrompt = `# SOFIA — Master System Prompt v2.0
 # ${salon.salon_name}
 
 ## WHO YOU ARE
@@ -137,54 +139,55 @@ After a positive visit mention: "Would you mind leaving a quick review? It takes
 - Never ends a conversation without a clear next step
 - Never breaks character`;
 
-              console.log('Calling Claude API...');
-              const aiResponse = await fetch('https://api.anthropic.com/v1/messages', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'x-api-key': process.env.ANTHROPIC_API_KEY,
-                  'anthropic-version': '2023-06-01'
-                },
-                body: JSON.stringify({
-                  model: 'claude-sonnet-4-20250514',
-                  max_tokens: 500,
-                  system: systemPrompt,
-                  messages: [
-                    { role: 'user', content: messageText }
-                  ]
-                })
-              });
+            // Get AI response from Claude
+            console.log('Calling Claude API...');
+            const aiResponse = await fetch('https://api.anthropic.com/v1/messages', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': process.env.ANTHROPIC_API_KEY,
+                'anthropic-version': '2023-06-01'
+              },
+              body: JSON.stringify({
+                model: 'claude-sonnet-4-20250514',
+                max_tokens: 500,
+                system: systemPrompt,
+                messages: [
+                  { role: 'user', content: messageText }
+                ]
+              })
+            });
 
-              const aiData = await aiResponse.json();
-              console.log('Claude response status:', aiResponse.status);
-              console.log('Claude content:', JSON.stringify(aiData.content));
+            const aiData = await aiResponse.json();
+            console.log('Claude status:', aiResponse.status);
 
-              const replyText = aiData.content?.[0]?.text;
-              if (!replyText) {
-                console.error('No reply text from Claude, full response:', JSON.stringify(aiData));
-                continue;
-              }
-
-              console.log('Sending reply to Instagram API...');
-              const fbRes = await fetch('https://graph.instagram.com/v21.0/me/messages', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${salon.instagram_token}`
-                },
-                body: JSON.stringify({
-                  recipient: { id: senderId },
-                  message: { text: replyText }
-                })
-              });
-
-              const fbData = await fbRes.json();
-              console.log('Instagram API response:', JSON.stringify(fbData));
-
-            } catch (error) {
-              console.error('Error processing message:', error.message);
-              console.error('Stack:', error.stack);
+            const replyText = aiData.content?.[0]?.text;
+            if (!replyText) {
+              console.error('No reply from Claude:', JSON.stringify(aiData));
+              continue;
             }
+
+            console.log('Reply text:', replyText);
+
+            // Send reply via Instagram API
+            console.log('Sending to Instagram...');
+            const igRes = await fetch('https://graph.instagram.com/v21.0/me/messages', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${salon.instagram_token}`
+              },
+              body: JSON.stringify({
+                recipient: { id: senderId },
+                message: { text: replyText }
+              })
+            });
+
+            const igData = await igRes.json();
+            console.log('Instagram API response:', JSON.stringify(igData));
+
+          } catch (error) {
+            console.error('Error:', error.message);
           }
         }
       }
