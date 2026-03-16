@@ -348,10 +348,12 @@
   widget.id = 'sofia-widget';
   widget.innerHTML = `
     <button id="sofia-btn" aria-label="Chat with Sofia">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7 2l1.5 4.5L13 8l-4.5 1.5L7 14l-1.5-4.5L1 8l4.5-1.5L7 2zm10 10l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z"/>
-      </svg>
-    </button>
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" fill="white"/>
+    <path d="M13.5 7l.8 2.2L16.5 10l-2.2.8L13.5 13l-.8-2.2L10.5 10l2.2-.8L13.5 7z" fill="#c9973a"/>
+    <circle cx="8" cy="10" r="1" fill="#c9973a" opacity="0.7"/>
+  </svg>
+</button>
     <div id="sofia-tooltip">Need help booking? 💛</div>
 
     <div id="sofia-chat">
