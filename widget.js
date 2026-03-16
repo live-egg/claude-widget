@@ -264,7 +264,7 @@
 
     .sofia-msg {
       max-width: 80%;
-      padding: 13px 16px;
+      padding: 15px 21px;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       line-height: 1.6;
