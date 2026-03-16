@@ -271,6 +271,8 @@
 
     .sofia-bubble {
       max-width: 78%;
+      min-width: 60px;
+      display: inline-block;
       padding: 20px 28px;
       font-size: 15px;
       line-height: 1.65;
