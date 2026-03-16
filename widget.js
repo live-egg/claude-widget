@@ -25,72 +25,86 @@
       bottom: 24px;
       right: 20px;
       width: auto;
-      height: 54px;
-      border-radius: 27px;
-      padding: 0 20px 0 14px;
+      height: 58px;
+      border-radius: 29px;
+      padding: 0 22px 0 14px;
       gap: 10px;
-      background: linear-gradient(135deg, #d4a843 0%, #b8882e 100%);
+      background: linear-gradient(135deg, #d4a843 0%, #b8882e 50%, #c9973a 100%);
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(180,130,40,0.45);
+      box-shadow: 0 4px 24px rgba(201,151,58,0.45), 0 1px 4px rgba(0,0,0,0.2);
       display: flex;
       align-items: center;
       z-index: 99999;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
+    }
+
+    #sofia-btn::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 34px;
+      background: linear-gradient(135deg, rgba(212,168,67,0.4), transparent);
+      animation: sofia-pulse 2.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes sofia-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.04); opacity: 0; }
     }
 
     #sofia-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(180,130,40,0.55);
+      transform: scale(1.04) translateY(-2px);
+      box-shadow: 0 8px 32px rgba(201,151,58,0.6), 0 2px 8px rgba(0,0,0,0.2);
     }
 
-    #sofia-btn:active { transform: scale(0.96); }
+    #sofia-btn:active { transform: scale(0.97); }
 
-    #sofia-btn-icon {
-      width: 30px;
-      height: 30px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    #sofia-btn svg {
+      width: 32px;
+      height: 32px;
+      position: relative;
+      z-index: 1;
       flex-shrink: 0;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
     }
 
-    #sofia-btn-icon svg { width: 17px; height: 17px; fill: #fff; }
+    #sofia-btn circle { transition: opacity 0.2s; }
+    #sofia-btn:hover circle:nth-child(2) { animation: dot-pulse 0.8s ease-in-out infinite; }
+    #sofia-btn:hover circle:nth-child(3) { animation: dot-pulse 0.8s ease-in-out 0.15s infinite; }
+    #sofia-btn:hover circle:nth-child(4) { animation: dot-pulse 0.8s ease-in-out 0.3s infinite; }
 
-    #sofia-btn-text { display: flex; flex-direction: column; align-items: flex-start; }
+    @keyframes dot-pulse {
+      0%, 100% { opacity: 1; transform: translateY(0); }
+      50% { opacity: 0.5; transform: translateY(-2px); }
+    }
+
+    #sofia-btn-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
 
     #sofia-btn-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.01em;
       line-height: 1.2;
       white-space: nowrap;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
     }
 
     #sofia-btn-sub {
       font-size: 11px;
-      font-weight: 400;
-      color: rgba(255,255,255,0.82);
+      font-weight: 500;
+      color: rgba(255,255,255,0.9);
       line-height: 1.2;
       white-space: nowrap;
-    }
-
-    /* pulse ring */
-    #sofia-btn::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 31px;
-      border: 2px solid rgba(212,168,67,0.4);
-      animation: sofia-ring 2.5s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes sofia-ring {
-      0%, 100% { opacity: 0.5; transform: scale(1); }
-      50% { opacity: 0; transform: scale(1.06); }
+      text-shadow: 0 1px 3px rgba(0,0,0,0.35);
     }
 
     /* ── Tooltip ── */
@@ -400,11 +414,12 @@
   widget.id = 'sofia-widget';
   widget.innerHTML = `
     <button id="sofia-btn" aria-label="Chat with Sofia">
-      <div id="sofia-btn-icon">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-        </svg>
-      </div>
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 2C8.27 2 2 7.82 2 15c0 3.3 1.3 6.3 3.45 8.55L4 30l7.2-2.4C12.67 28.18 14.3 28.5 16 28.5c7.73 0 14-5.82 14-13S23.73 2 16 2z" fill="white"/>
+        <circle cx="11" cy="15" r="1.8" fill="#b8882e"/>
+        <circle cx="16" cy="15" r="1.8" fill="#b8882e"/>
+        <circle cx="21" cy="15" r="1.8" fill="#b8882e"/>
+      </svg>
       <div id="sofia-btn-text">
         <span id="sofia-btn-title">Chat with Sofia</span>
         <span id="sofia-btn-sub">AI Beauty Assistant</span>
