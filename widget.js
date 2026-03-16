@@ -14,6 +14,7 @@
 
     #sofia-widget * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ── Button ── */
     #sofia-btn {
       position: fixed;
       bottom: 24px;
@@ -65,7 +66,6 @@
     }
 
     #sofia-btn circle { transition: opacity 0.2s; }
-
     #sofia-btn:hover circle:nth-child(2) { animation: dot-pulse 0.8s ease-in-out infinite; }
     #sofia-btn:hover circle:nth-child(3) { animation: dot-pulse 0.8s ease-in-out 0.15s infinite; }
     #sofia-btn:hover circle:nth-child(4) { animation: dot-pulse 0.8s ease-in-out 0.3s infinite; }
@@ -104,11 +104,12 @@
       text-shadow: 0 1px 3px rgba(0,0,0,0.35);
     }
 
+    /* ── Tooltip ── */
     #sofia-tooltip {
       position: fixed;
       bottom: 96px;
       right: 20px;
-      background: linear-gradient(135deg, #1e1c18, #181612);
+      background: #1e1c18;
       border: 1px solid rgba(201,151,58,0.3);
       border-radius: 12px 12px 4px 12px;
       padding: 10px 14px;
@@ -133,24 +134,25 @@
       right: 18px;
       width: 10px;
       height: 10px;
-      background: #181612;
+      background: #1e1c18;
       border-right: 1px solid rgba(201,151,58,0.3);
       border-bottom: 1px solid rgba(201,151,58,0.3);
       transform: rotate(45deg);
     }
 
+    /* ── Chat window ── */
     #sofia-chat {
       position: fixed;
       bottom: 96px;
       right: 20px;
-      width: 370px;
+      width: 380px;
       max-width: calc(100vw - 24px);
-      height: 540px;
+      height: 560px;
       max-height: calc(100vh - 120px);
-      background: #0d0c0a;
-      border: 1px solid rgba(201,151,58,0.2);
+      background: #111009;
+      border: 1px solid rgba(201,151,58,0.25);
       border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
       display: none;
       flex-direction: column;
       z-index: 99998;
@@ -166,10 +168,11 @@
       opacity: 1;
     }
 
+    /* ── Header ── */
     #sofia-header {
       padding: 16px 20px;
-      background: linear-gradient(180deg, #1a1814 0%, #131210 100%);
-      border-bottom: 1px solid rgba(201,151,58,0.2);
+      background: #1a1814;
+      border-bottom: 2px solid rgba(201,151,58,0.25);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -177,25 +180,25 @@
     }
 
     #sofia-avatar {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 50%;
       background: linear-gradient(135deg, #d4a843, #9a6e1e);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 20px;
       flex-shrink: 0;
-      box-shadow: 0 2px 12px rgba(201,151,58,0.3);
+      box-shadow: 0 2px 12px rgba(201,151,58,0.4);
     }
 
     #sofia-header-info { flex: 1; min-width: 0; }
 
     #sofia-header-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 17px;
+      font-size: 18px;
       font-weight: 600;
-      color: #f0ebe0;
+      color: #f5e4a0;
       letter-spacing: 0.02em;
       line-height: 1.2;
     }
@@ -203,9 +206,9 @@
     #sofia-header-status {
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
-      color: #c9973a;
+      color: #4ade80;
       letter-spacing: 0.04em;
-      margin-top: 2px;
+      margin-top: 3px;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -217,13 +220,13 @@
       height: 6px;
       border-radius: 50%;
       background: #4ade80;
-      box-shadow: 0 0 6px rgba(74,222,128,0.6);
+      box-shadow: 0 0 6px rgba(74,222,128,0.8);
       flex-shrink: 0;
     }
 
     #sofia-close {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 8px;
       cursor: pointer;
       color: #6b6560;
@@ -233,36 +236,42 @@
       align-items: center;
       justify-content: center;
       font-size: 18px;
-      line-height: 1;
       transition: background 0.2s, color 0.2s;
       flex-shrink: 0;
     }
 
-    #sofia-close:hover { background: rgba(255,255,255,0.1); color: #f0ebe0; }
+    #sofia-close:hover { background: rgba(255,255,255,0.12); color: #f0ebe0; }
 
+    /* ── Messages area ── */
     #sofia-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 20px 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      background: #0d0c0a;
+      gap: 10px;
+      background: #111009;
       -webkit-overflow-scrolling: touch;
     }
 
     #sofia-messages::-webkit-scrollbar { width: 3px; }
     #sofia-messages::-webkit-scrollbar-track { background: transparent; }
-    #sofia-messages::-webkit-scrollbar-thumb { background: rgba(201,151,58,0.2); border-radius: 2px; }
+    #sofia-messages::-webkit-scrollbar-thumb { background: rgba(201,151,58,0.25); border-radius: 2px; }
 
+    /* ── Message bubbles — messenger style ── */
     .sofia-msg {
-      max-width: 80%;
-      padding: 20px 34px;
+      max-width: 75%;
       font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
+      font-size: 14.5px;
       line-height: 1.6;
-      animation: sofia-msg-in 0.25s ease forwards;
+      animation: sofia-msg-in 0.2s ease forwards;
       word-wrap: break-word;
+      position: relative;
+    }
+
+    .sofia-msg-inner {
+      padding: 12px 18px;
+      border-radius: 20px;
     }
 
     @keyframes sofia-msg-in {
@@ -270,37 +279,47 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Бот — золотий текст на темному фоні */
-.sofia-msg.bot {
-  background: #1a1608;
-  color: #f5e4a0;
-  border-radius: 14px 14px 14px 4px;
-  border: 1.5px solid rgba(201,151,58,0.4);
-  align-self: flex-start;
-  box-shadow: inset 0 0 0 4px #1a1608, 0 2px 12px rgba(0,0,0,0.3);
-}
+    /* Бот — золотий стиль */
+    .sofia-msg.bot {
+      align-self: flex-start;
+    }
 
-    /* Юзер — зелений текст на темному фоні */
-.sofia-msg.user {
-  background: #101a12;
-  color: #d4ead8;
-  border-radius: 14px 14px 4px 14px;
-  border: 1.5px solid rgba(74,160,90,0.4);
-  align-self: flex-end;
-  text-align: right;
-  box-shadow: inset 0 0 0 4px #101a12, 0 2px 12px rgba(0,0,0,0.3);
-}
+    .sofia-msg.bot .sofia-msg-inner {
+      background: #2a1e06;
+      color: #f5e4a0;
+      border-radius: 4px 20px 20px 20px;
+      border: 2px solid rgba(201,151,58,0.5);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+    }
 
+    /* Юзер — зелений стиль */
+    .sofia-msg.user {
+      align-self: flex-end;
+    }
+
+    .sofia-msg.user .sofia-msg-inner {
+      background: #0e1f11;
+      color: #c8e6cc;
+      border-radius: 20px 4px 20px 20px;
+      border: 2px solid rgba(74,160,90,0.5);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+      text-align: right;
+    }
+
+    /* ── Typing indicator ── */
     .sofia-typing {
+      align-self: flex-start;
+      animation: sofia-msg-in 0.2s ease forwards;
+    }
+
+    .sofia-typing-inner {
       display: flex;
       gap: 5px;
-      padding: 14px 18px;
-      background: #1a1608;
-      border-radius: 18px 18px 18px 4px;
-      border: 1.5px solid rgba(201,151,58,0.4);
-      align-self: flex-start;
-      animation: sofia-msg-in 0.25s ease forwards;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      padding: 12px 18px;
+      background: #2a1e06;
+      border-radius: 4px 20px 20px 20px;
+      border: 2px solid rgba(201,151,58,0.5);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
     }
 
     .sofia-typing span {
@@ -319,10 +338,11 @@
       30% { transform: translateY(-5px); opacity: 1; }
     }
 
+    /* ── Input area ── */
     #sofia-input-area {
       padding: 12px 14px;
-      background: #0f0e0c;
-      border-top: 1px solid rgba(201,151,58,0.15);
+      background: #1a1814;
+      border-top: 2px solid rgba(201,151,58,0.2);
       display: flex;
       gap: 10px;
       align-items: flex-end;
@@ -331,10 +351,10 @@
 
     #sofia-input {
       flex: 1;
-      background: rgba(255,255,255,0.05);
-      border: 1.5px solid rgba(201,151,58,0.25);
-      border-radius: 14px;
-      padding: 11px 16px;
+      background: #0f0e0c;
+      border: 2px solid rgba(201,151,58,0.3);
+      border-radius: 20px;
+      padding: 12px 18px;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       color: #e8e0d0;
@@ -348,12 +368,12 @@
     }
 
     #sofia-input::placeholder { color: rgba(240,235,224,0.3); font-style: italic; }
-    #sofia-input:focus { border-color: rgba(201,151,58,0.6); background: rgba(255,255,255,0.07); }
+    #sofia-input:focus { border-color: rgba(201,151,58,0.7); background: #111009; }
 
     #sofia-send {
       width: 46px;
       height: 46px;
-      border-radius: 14px;
+      border-radius: 50%;
       background: linear-gradient(135deg, #d4a843, #b8882e);
       border: none;
       cursor: pointer;
@@ -362,14 +382,15 @@
       justify-content: center;
       flex-shrink: 0;
       transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
-      box-shadow: 0 2px 12px rgba(201,151,58,0.35);
+      box-shadow: 0 2px 12px rgba(201,151,58,0.4);
       -webkit-tap-highlight-color: transparent;
     }
 
-    #sofia-send:hover { transform: scale(1.06) translateY(-1px); box-shadow: 0 4px 16px rgba(201,151,58,0.5); }
-    #sofia-send:active { transform: scale(0.94); }
-    #sofia-send svg { width: 18px; height: 18px; fill: #0f0e0c; }
+    #sofia-send:hover { transform: scale(1.08) translateY(-1px); box-shadow: 0 4px 18px rgba(201,151,58,0.6); }
+    #sofia-send:active { transform: scale(0.93); }
+    #sofia-send svg { width: 18px; height: 18px; fill: #0f0e0c; margin-left: 2px; }
 
+    /* ── Mobile ── */
     @media (max-width: 480px) {
       #sofia-btn { bottom: 16px; right: 16px; height: 54px; padding: 0 18px 0 12px; }
       #sofia-chat {
@@ -415,7 +436,7 @@
       </div>
       <div id="sofia-messages"></div>
       <div id="sofia-input-area">
-        <textarea id="sofia-input" placeholder="Ask me anything…" rows="1"></textarea>
+        <textarea id="sofia-input" placeholder="Type a message…" rows="1"></textarea>
         <button id="sofia-send">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -510,7 +531,7 @@
   function addBotMessage(text) {
     const msg = document.createElement('div');
     msg.className = 'sofia-msg bot';
-    msg.textContent = text;
+    msg.innerHTML = `<div class="sofia-msg-inner">${escapeHtml(text)}</div>`;
     messagesEl.appendChild(msg);
     scrollToBottom();
   }
@@ -518,7 +539,7 @@
   function addUserMessage(text) {
     const msg = document.createElement('div');
     msg.className = 'sofia-msg user';
-    msg.textContent = text;
+    msg.innerHTML = `<div class="sofia-msg-inner">${escapeHtml(text)}</div>`;
     messagesEl.appendChild(msg);
     scrollToBottom();
   }
@@ -528,7 +549,7 @@
     const typing = document.createElement('div');
     typing.className = 'sofia-typing';
     typing.id = 'sofia-typing';
-    typing.innerHTML = '<span></span><span></span><span></span>';
+    typing.innerHTML = '<div class="sofia-typing-inner"><span></span><span></span><span></span></div>';
     messagesEl.appendChild(typing);
     scrollToBottom();
   }
@@ -541,6 +562,14 @@
 
   function scrollToBottom() {
     messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 
 })();
