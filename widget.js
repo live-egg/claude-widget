@@ -13,8 +13,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
 
     #sofia-widget * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    /* ── Launch Button ── */
+
     #sofia-btn {
       position: fixed;
       bottom: 28px;
@@ -54,9 +53,53 @@
 
     #sofia-btn:active { transform: scale(0.96); }
 
-    #sofia-btn svg { width: 26px; height: 26px; fill: #0f0e0c; position: relative; z-index: 1; }
+    #sofia-btn svg {
+      width: 28px;
+      height: 28px;
+      fill: #ffffff;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+    }
 
-    /* ── Chat Window ── */
+    #sofia-tooltip {
+      position: fixed;
+      bottom: 104px;
+      right: 28px;
+      background: linear-gradient(135deg, #1e1c18, #181612);
+      border: 1px solid rgba(201,151,58,0.3);
+      border-radius: 12px 12px 4px 12px;
+      padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: #e8e0d0;
+      white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      z-index: 99997;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+
+    #sofia-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #sofia-tooltip::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      right: 18px;
+      width: 10px;
+      height: 10px;
+      background: #181612;
+      border-right: 1px solid rgba(201,151,58,0.3);
+      border-bottom: 1px solid rgba(201,151,58,0.3);
+      transform: rotate(45deg);
+    }
+
     #sofia-chat {
       position: fixed;
       bottom: 106px;
@@ -82,7 +125,6 @@
       opacity: 1;
     }
 
-    /* ── Header ── */
     #sofia-header {
       padding: 18px 20px;
       background: linear-gradient(180deg, #1a1814 0%, #131210 100%);
@@ -159,7 +201,6 @@
       color: #f0ebe0;
     }
 
-    /* ── Messages ── */
     #sofia-messages {
       flex: 1;
       overflow-y: auto;
@@ -205,7 +246,6 @@
       text-align: right;
     }
 
-    /* ── Typing ── */
     .sofia-typing {
       display: flex;
       gap: 5px;
@@ -233,7 +273,6 @@
       30% { transform: translateY(-5px); opacity: 1; }
     }
 
-    /* ── Input Area ── */
     #sofia-input-area {
       padding: 14px 16px;
       background: linear-gradient(180deg, #131210 0%, #0f0e0c 100%);
@@ -282,7 +321,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease, opacity 0.2s;
+      transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
       box-shadow: 0 2px 12px rgba(201,151,58,0.3);
     }
 
@@ -294,20 +333,10 @@
     #sofia-send:active { transform: scale(0.94); }
     #sofia-send svg { width: 17px; height: 17px; fill: #0f0e0c; }
 
-    /* ── Divider ── */
-    .sofia-divider {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 10px;
-      color: rgba(201,151,58,0.35);
-      text-align: center;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin: 4px 0;
-    }
-
     @media (max-width: 420px) {
       #sofia-chat { width: calc(100vw - 24px); right: 12px; bottom: 90px; }
       #sofia-btn { right: 12px; bottom: 16px; }
+      #sofia-tooltip { right: 12px; }
     }
   `;
 
@@ -320,9 +349,10 @@
   widget.innerHTML = `
     <button id="sofia-btn" aria-label="Chat with Sofia">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l4.93-1.37C8.42 21.5 10.15 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm-1 14H7v-2h4v2zm6 0h-4v-2h4v2zm0-4H7V8h10v4z"/>
+        <path d="M7 2l1.5 4.5L13 8l-4.5 1.5L7 14l-1.5-4.5L1 8l4.5-1.5L7 2zm10 10l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3z"/>
       </svg>
     </button>
+    <div id="sofia-tooltip">Need help booking? 💛</div>
 
     <div id="sofia-chat">
       <div id="sofia-header">
@@ -351,6 +381,7 @@
   let messages = [];
   let isOpen = false;
   let isTyping = false;
+  let tooltipShown = false;
 
   const chat = document.getElementById('sofia-chat');
   const btn = document.getElementById('sofia-btn');
@@ -358,8 +389,21 @@
   const messagesEl = document.getElementById('sofia-messages');
   const input = document.getElementById('sofia-input');
   const sendBtn = document.getElementById('sofia-send');
+  const tooltip = document.getElementById('sofia-tooltip');
+
+  // Show tooltip after 15 seconds if chat not opened
+  setTimeout(() => {
+    if (!isOpen && !tooltipShown) {
+      tooltipShown = true;
+      tooltip.classList.add('visible');
+      setTimeout(() => {
+        tooltip.classList.remove('visible');
+      }, 5000);
+    }
+  }, 15000);
 
   btn.addEventListener('click', () => {
+    tooltip.classList.remove('visible');
     isOpen = !isOpen;
     chat.classList.toggle('open', isOpen);
     if (isOpen && messages.length === 0) {
