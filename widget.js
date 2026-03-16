@@ -143,26 +143,24 @@
 
     .sw-bubble {
       max-width: 75%;
-      padding: 11px 15px !important;
+      padding: 9px 13px !important;
       font-size: 14px !important;
-      line-height: 1.6 !important;
+      line-height: 1.55 !important;
       word-wrap: break-word;
       word-break: break-word;
       white-space: pre-wrap;
     }
 
     .sw-row.bot .sw-bubble {
-      background: #221a0e;
+      background: #1e1c18;
       color: #f0ebe0;
       border-radius: 14px 14px 14px 3px;
-      border: 1px solid rgba(201,151,58,0.2);
     }
 
     .sw-row.user .sw-bubble {
-      background: #1a1916;
-      color: #f0ebe0;
+      background: #3a2a0a;
+      color: #f5e4a0;
       border-radius: 14px 14px 3px 14px;
-      border: 1px solid rgba(201,151,58,0.55);
     }
 
     /* ─ Typing ─ */
