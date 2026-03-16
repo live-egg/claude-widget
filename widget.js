@@ -227,10 +227,10 @@
     #sofia-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 16px 14px;
+      padding: 20px 16px;
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 10px;
       background: #18160f;
       -webkit-overflow-scrolling: touch;
     }
@@ -243,7 +243,7 @@
     .sofia-msg-wrap {
       display: flex;
       flex-direction: column;
-      margin-bottom: 2px;
+      margin-bottom: 6px;
       animation: sofia-in 0.18s ease forwards;
     }
 
@@ -257,9 +257,9 @@
 
     .sofia-bubble {
       max-width: 78%;
-      padding: 10px 14px;
-      font-size: 14px;
-      line-height: 1.55;
+      padding: 13px 18px;
+      font-size: 14.5px;
+      line-height: 1.6;
       word-wrap: break-word;
       word-break: break-word;
     }
