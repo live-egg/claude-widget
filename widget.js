@@ -253,11 +253,10 @@
     #sofia-messages::-webkit-scrollbar-track { background: transparent; }
     #sofia-messages::-webkit-scrollbar-thumb { background: rgba(201,151,58,0.2); border-radius: 2px; }
 
-    /* ── Message bubbles — iMessage-like ── */
-    .sofia-msg-wrap {
+    /* ── Message rows ── */
+    .sofia-row {
       display: flex;
-      flex-direction: column;
-      margin-bottom: 6px;
+      padding: 2px 0;
       animation: sofia-in 0.18s ease forwards;
     }
 
@@ -266,58 +265,47 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    .sofia-msg-wrap.bot  { align-items: flex-start; }
-    .sofia-msg-wrap.user { align-items: flex-end; }
+    .sofia-row.bot  { justify-content: flex-start; }
+    .sofia-row.user { justify-content: flex-end; }
 
     .sofia-bubble {
-      max-width: 78%;
-      min-width: 60px;
-      display: inline-block;
-      padding: 20px 28px;
+      max-width: 72%;
+      padding: 12px 16px;
       font-size: 15px;
-      line-height: 1.65;
+      line-height: 1.55;
       word-wrap: break-word;
       word-break: break-word;
+      white-space: pre-wrap;
     }
 
-    /* Bot bubble — bright warm gold */
-    .sofia-msg-wrap.bot .sofia-bubble {
+    .sofia-row.bot .sofia-bubble {
       background: #5c3d0e;
       color: #fff8e8;
       border-radius: 18px 18px 18px 4px;
     }
 
-    /* User bubble — bright green */
-    .sofia-msg-wrap.user .sofia-bubble {
+    .sofia-row.user .sofia-bubble {
       background: #1e5c1e;
       color: #e8ffe8;
       border-radius: 18px 18px 4px 18px;
-      text-align: left;
     }
 
-    /* Grouping: consecutive messages from same sender get tighter corners */
-    .sofia-msg-wrap.bot + .sofia-msg-wrap.bot .sofia-bubble {
-      border-radius: 4px 18px 18px 4px;
-    }
-
-    .sofia-msg-wrap.bot:last-of-type .sofia-bubble,
-    .sofia-msg-wrap.bot + .sofia-msg-wrap.user ~ .sofia-msg-wrap.bot .sofia-bubble {
-      border-radius: 4px 18px 18px 18px;
-    }
-
-    .sofia-msg-wrap.user + .sofia-msg-wrap.user .sofia-bubble {
-      border-radius: 18px 4px 4px 18px;
-    }
+    /* gap between consecutive same-sender messages */
+    .sofia-row.bot + .sofia-row.bot,
+    .sofia-row.user + .sofia-row.user { margin-top: 2px; }
+    .sofia-row.bot + .sofia-row.user,
+    .sofia-row.user + .sofia-row.bot  { margin-top: 10px; }
 
     /* ── Typing indicator ── */
-    .sofia-typing-wrap {
-      align-self: flex-start;
+    .sofia-typing-row {
+      display: flex;
+      justify-content: flex-start;
+      padding: 2px 0;
       animation: sofia-in 0.18s ease forwards;
-      margin-bottom: 2px;
     }
 
     .sofia-typing-bubble {
-      padding: 12px 16px;
+      padding: 14px 18px;
       background: #5c3d0e;
       border-radius: 18px 18px 18px 4px;
       display: inline-flex;
@@ -328,7 +316,7 @@
     .sofia-typing-bubble span {
       width: 7px;
       height: 7px;
-      background: #c9973a;
+      background: #f0c060;
       border-radius: 50%;
       animation: sofia-dot 1.2s ease-in-out infinite;
     }
@@ -337,8 +325,8 @@
     .sofia-typing-bubble span:nth-child(3) { animation-delay: 0.32s; }
 
     @keyframes sofia-dot {
-      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-      30% { transform: translateY(-4px); opacity: 1; }
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
+      30% { transform: translateY(-5px); opacity: 1; }
     }
 
     /* ── Input area ── */
@@ -530,34 +518,34 @@
 
   /* helpers */
   function addBotMsg(text) {
-    const wrap = document.createElement('div');
-    wrap.className = 'sofia-msg-wrap bot';
+    const row = document.createElement('div');
+    row.className = 'sofia-row bot';
     const bubble = document.createElement('div');
     bubble.className = 'sofia-bubble';
     bubble.textContent = text;
-    wrap.appendChild(bubble);
-    msgArea.appendChild(wrap);
+    row.appendChild(bubble);
+    msgArea.appendChild(row);
     scrollEnd();
   }
 
   function addUserMsg(text) {
-    const wrap = document.createElement('div');
-    wrap.className = 'sofia-msg-wrap user';
+    const row = document.createElement('div');
+    row.className = 'sofia-row user';
     const bubble = document.createElement('div');
     bubble.className = 'sofia-bubble';
     bubble.textContent = text;
-    wrap.appendChild(bubble);
-    msgArea.appendChild(wrap);
+    row.appendChild(bubble);
+    msgArea.appendChild(row);
     scrollEnd();
   }
 
   function showTyping() {
     isTyping = true;
-    const wrap = document.createElement('div');
-    wrap.className = 'sofia-typing-wrap';
-    wrap.id = 'sofia-typing';
-    wrap.innerHTML = '<div class="sofia-typing-bubble"><span></span><span></span><span></span></div>';
-    msgArea.appendChild(wrap);
+    const row = document.createElement('div');
+    row.className = 'sofia-typing-row';
+    row.id = 'sofia-typing';
+    row.innerHTML = '<div class="sofia-typing-bubble"><span></span><span></span><span></span></div>';
+    msgArea.appendChild(row);
     scrollEnd();
   }
 
