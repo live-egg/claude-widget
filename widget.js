@@ -271,25 +271,25 @@
     }
 
     /* Бот — золотий текст на темному фоні */
-    .sofia-msg.bot {
-      background: #1a1608;
-      color: #f5e4a0;
-      border-radius: 18px 18px 18px 4px;
-      border: 1.5px solid rgba(201,151,58,0.4);
-      align-self: flex-start;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-    }
+.sofia-msg.bot {
+  background: #1a1608;
+  color: #f5e4a0;
+  border-radius: 14px 14px 14px 4px;
+  border: 1.5px solid rgba(201,151,58,0.4);
+  align-self: flex-start;
+  box-shadow: inset 0 0 0 4px #1a1608, 0 2px 12px rgba(0,0,0,0.3);
+}
 
     /* Юзер — зелений текст на темному фоні */
-    .sofia-msg.user {
-      background: #101a12;
-      color: #d4ead8;
-      border-radius: 18px 18px 4px 18px;
-      border: 1.5px solid rgba(74,160,90,0.4);
-      align-self: flex-end;
-      text-align: right;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-    }
+.sofia-msg.user {
+  background: #101a12;
+  color: #d4ead8;
+  border-radius: 14px 14px 4px 14px;
+  border: 1.5px solid rgba(74,160,90,0.4);
+  align-self: flex-end;
+  text-align: right;
+  box-shadow: inset 0 0 0 4px #101a12, 0 2px 12px rgba(0,0,0,0.3);
+}
 
     .sofia-typing {
       display: flex;
