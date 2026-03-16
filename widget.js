@@ -368,9 +368,9 @@
     <button id="sofia-btn" aria-label="Chat with Sofia">
       <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M16 4C9.37 4 4 8.92 4 15c0 2.8 1.1 5.36 2.93 7.33L6 28l5.67-1.93C13.03 26.67 14.49 27 16 27c6.63 0 12-4.92 12-11S22.63 4 16 4z" fill="white"/>
-        <circle cx="11" cy="15" r="1.5" fill="#c9973a"/>
-        <circle cx="16" cy="15" r="1.5" fill="#c9973a"/>
-        <circle cx="21" cy="15" r="1.5" fill="#c9973a"/>
+     <circle cx="11" cy="15" r="2" fill="#c9973a"/>
+<circle cx="16" cy="15" r="2" fill="#c9973a"/>
+<circle cx="21" cy="15" r="2" fill="#c9973a"/>
       </svg>
     </button>
     <div id="sofia-tooltip">Need help booking? 💛</div>
