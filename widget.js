@@ -23,8 +23,8 @@
       border-radius: 28px;
       padding: 0 20px 0 14px;
       gap: 10px;
-      background: linear-gradient(135deg, #d4a843 0%, #b8882e 50%, #c9973a 100%);
-      border: none;
+      background: linear-gradient(135deg, #1a1814 0%, #2a2218 100%);
+border: 1px solid rgba(201,151,58,0.6);
       cursor: pointer;
       box-shadow: 0 4px 24px rgba(201,151,58,0.45), 0 1px 4px rgba(0,0,0,0.3);
       display: flex;
