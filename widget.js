@@ -16,20 +16,19 @@
 
     #sofia-btn {
       position: fixed;
-      bottom: 28px;
-      right: 28px;
+      bottom: 24px;
+      right: 20px;
       width: auto;
-      height: 56px;
-      border-radius: 28px;
-      padding: 0 20px 0 14px;
+      height: 58px;
+      border-radius: 29px;
+      padding: 0 22px 0 14px;
       gap: 10px;
-      background: linear-gradient(135deg, #1e1b14 0%, #2a2218 100%);
-      border: 1.5px solid rgba(201,151,58,0.7);
+      background: linear-gradient(135deg, #d4a843 0%, #b8882e 50%, #c9973a 100%);
+      border: none;
       cursor: pointer;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,151,58,0.1);
+      box-shadow: 0 4px 24px rgba(201,151,58,0.45), 0 1px 4px rgba(0,0,0,0.2);
       display: flex;
       align-items: center;
-      justify-content: center;
       z-index: 99999;
       transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
     }
@@ -38,9 +37,10 @@
       content: '';
       position: absolute;
       inset: -3px;
-      border-radius: 32px;
-      background: linear-gradient(135deg, rgba(201,151,58,0.3), transparent);
+      border-radius: 34px;
+      background: linear-gradient(135deg, rgba(212,168,67,0.4), transparent);
       animation: sofia-pulse 2.5s ease-in-out infinite;
+      pointer-events: none;
     }
 
     @keyframes sofia-pulse {
@@ -50,22 +50,20 @@
 
     #sofia-btn:hover {
       transform: scale(1.04) translateY(-2px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,151,58,0.3);
-      border-color: rgba(201,151,58,1);
+      box-shadow: 0 8px 32px rgba(201,151,58,0.6), 0 2px 8px rgba(0,0,0,0.2);
     }
 
     #sofia-btn:active { transform: scale(0.97); }
 
     #sofia-btn svg {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       position: relative;
       z-index: 1;
       flex-shrink: 0;
     }
 
     #sofia-btn circle {
-      opacity: 0.7;
       transition: opacity 0.2s;
     }
 
@@ -80,8 +78,8 @@
     }
 
     @keyframes dot-pulse {
-      0%, 100% { opacity: 0.7; transform: translateY(0); }
-      50% { opacity: 1; transform: translateY(-2px); }
+      0%, 100% { opacity: 1; transform: translateY(0); }
+      50% { opacity: 0.6; transform: translateY(-2px); }
     }
 
     #sofia-btn-text {
@@ -96,7 +94,7 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 15px;
       font-weight: 700;
-      color: #ffffff;
+      color: #1a1814;
       letter-spacing: 0.01em;
       line-height: 1.2;
       white-space: nowrap;
@@ -106,15 +104,16 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
       font-weight: 500;
-      color: #c9973a;
+      color: rgba(26,24,20,0.65);
       line-height: 1.2;
       white-space: nowrap;
     }
 
+    /* Tooltip */
     #sofia-tooltip {
       position: fixed;
       bottom: 96px;
-      right: 28px;
+      right: 20px;
       background: linear-gradient(135deg, #1e1c18, #181612);
       border: 1px solid rgba(201,151,58,0.3);
       border-radius: 12px 12px 4px 12px;
@@ -149,12 +148,15 @@
       transform: rotate(45deg);
     }
 
+    /* Chat window */
     #sofia-chat {
       position: fixed;
-      bottom: 100px;
-      right: 28px;
+      bottom: 96px;
+      right: 20px;
       width: 370px;
+      max-width: calc(100vw - 24px);
       height: 540px;
+      max-height: calc(100vh - 120px);
       background: #0d0c0a;
       border: 1px solid rgba(201,151,58,0.2);
       border-radius: 20px;
@@ -174,8 +176,9 @@
       opacity: 1;
     }
 
+    /* Header */
     #sofia-header {
-      padding: 18px 20px;
+      padding: 16px 20px;
       background: linear-gradient(180deg, #1a1814 0%, #131210 100%);
       border-bottom: 1px solid rgba(201,151,58,0.15);
       display: flex;
@@ -197,7 +200,7 @@
       box-shadow: 0 2px 12px rgba(201,151,58,0.3);
     }
 
-    #sofia-header-info { flex: 1; }
+    #sofia-header-info { flex: 1; min-width: 0; }
 
     #sofia-header-name {
       font-family: 'Cormorant Garamond', serif;
@@ -235,29 +238,29 @@
       border-radius: 8px;
       cursor: pointer;
       color: #6b6560;
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 18px;
       line-height: 1;
       transition: background 0.2s, color 0.2s;
+      flex-shrink: 0;
     }
 
-    #sofia-close:hover {
-      background: rgba(255,255,255,0.1);
-      color: #f0ebe0;
-    }
+    #sofia-close:hover { background: rgba(255,255,255,0.1); color: #f0ebe0; }
 
+    /* Messages */
     #sofia-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 20px 16px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 10px;
       background: #0d0c0a;
+      -webkit-overflow-scrolling: touch;
     }
 
     #sofia-messages::-webkit-scrollbar { width: 3px; }
@@ -265,12 +268,13 @@
     #sofia-messages::-webkit-scrollbar-thumb { background: rgba(201,151,58,0.2); border-radius: 2px; }
 
     .sofia-msg {
-      max-width: 82%;
+      max-width: 85%;
       padding: 11px 15px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 13.5px;
+      font-size: 14px;
       line-height: 1.55;
       animation: sofia-msg-in 0.25s ease forwards;
+      word-wrap: break-word;
     }
 
     @keyframes sofia-msg-in {
@@ -322,8 +326,9 @@
       30% { transform: translateY(-5px); opacity: 1; }
     }
 
+    /* Input */
     #sofia-input-area {
-      padding: 14px 16px;
+      padding: 12px 14px;
       background: linear-gradient(180deg, #131210 0%, #0f0e0c 100%);
       border-top: 1px solid rgba(201,151,58,0.1);
       display: flex;
@@ -339,29 +344,23 @@
       border-radius: 12px;
       padding: 10px 14px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 13.5px;
+      font-size: 14px;
       color: #e8e0d0;
       resize: none;
       outline: none;
       max-height: 80px;
-      min-height: 42px;
+      min-height: 44px;
       line-height: 1.5;
       transition: border-color 0.2s, background 0.2s;
+      -webkit-appearance: none;
     }
 
-    #sofia-input::placeholder {
-      color: rgba(240,235,224,0.25);
-      font-style: italic;
-    }
-
-    #sofia-input:focus {
-      border-color: rgba(201,151,58,0.5);
-      background: rgba(255,255,255,0.06);
-    }
+    #sofia-input::placeholder { color: rgba(240,235,224,0.25); font-style: italic; }
+    #sofia-input:focus { border-color: rgba(201,151,58,0.5); background: rgba(255,255,255,0.06); }
 
     #sofia-send {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
       background: linear-gradient(135deg, #d4a843, #b8882e);
       border: none;
@@ -372,20 +371,33 @@
       flex-shrink: 0;
       transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
       box-shadow: 0 2px 12px rgba(201,151,58,0.3);
+      -webkit-tap-highlight-color: transparent;
     }
 
-    #sofia-send:hover {
-      transform: scale(1.06) translateY(-1px);
-      box-shadow: 0 4px 16px rgba(201,151,58,0.5);
-    }
-
+    #sofia-send:hover { transform: scale(1.06) translateY(-1px); box-shadow: 0 4px 16px rgba(201,151,58,0.5); }
     #sofia-send:active { transform: scale(0.94); }
-    #sofia-send svg { width: 17px; height: 17px; fill: #0f0e0c; }
+    #sofia-send svg { width: 18px; height: 18px; fill: #0f0e0c; }
 
+    /* Mobile */
     @media (max-width: 480px) {
-      #sofia-chat { width: calc(100vw - 24px); right: 12px; bottom: 90px; }
-      #sofia-btn { right: 12px; bottom: 16px; }
-      #sofia-tooltip { right: 12px; }
+      #sofia-btn {
+        bottom: 16px;
+        right: 16px;
+        height: 54px;
+        padding: 0 18px 0 12px;
+      }
+      #sofia-chat {
+        right: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        max-width: 100%;
+        height: 85vh;
+        max-height: 85vh;
+        border-radius: 20px 20px 0 0;
+        border-bottom: none;
+      }
+      #sofia-tooltip { right: 16px; bottom: 84px; }
     }
   `;
 
@@ -397,11 +409,11 @@
   widget.id = 'sofia-widget';
   widget.innerHTML = `
     <button id="sofia-btn" aria-label="Chat with Sofia">
-      <svg width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16 2C8.27 2 2 7.82 2 15c0 3.3 1.3 6.3 3.45 8.55L4 30l7.2-2.4C12.67 28.18 14.3 28.5 16 28.5c7.73 0 14-5.82 14-13S23.73 2 16 2z" fill="#c9973a"/>
-        <circle cx="11" cy="15" r="1.5" fill="#1a1814"/>
-        <circle cx="16" cy="15" r="1.5" fill="#1a1814"/>
-        <circle cx="21" cy="15" r="1.5" fill="#1a1814"/>
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 2C8.27 2 2 7.82 2 15c0 3.3 1.3 6.3 3.45 8.55L4 30l7.2-2.4C12.67 28.18 14.3 28.5 16 28.5c7.73 0 14-5.82 14-13S23.73 2 16 2z" fill="#1a1814"/>
+        <circle cx="11" cy="15" r="1.5" fill="#d4a843"/>
+        <circle cx="16" cy="15" r="1.5" fill="#d4a843"/>
+        <circle cx="21" cy="15" r="1.5" fill="#d4a843"/>
       </svg>
       <div id="sofia-btn-text">
         <span id="sofia-btn-title">Chat with Sofia</span>
@@ -419,9 +431,7 @@
         </div>
         <button id="sofia-close">✕</button>
       </div>
-
       <div id="sofia-messages"></div>
-
       <div id="sofia-input-area">
         <textarea id="sofia-input" placeholder="Ask me anything…" rows="1"></textarea>
         <button id="sofia-send">
@@ -451,9 +461,7 @@
     if (!isOpen && !tooltipShown) {
       tooltipShown = true;
       tooltip.classList.add('visible');
-      setTimeout(() => {
-        tooltip.classList.remove('visible');
-      }, 5000);
+      setTimeout(() => { tooltip.classList.remove('visible'); }, 5000);
     }
   }, 15000);
 
@@ -483,7 +491,6 @@
 
     addUserMessage(text);
     messages.push({ role: 'user', content: text });
-
     showTyping();
 
     try {
@@ -495,11 +502,9 @@
 
       const data = await response.json();
       const reply = data.content?.[0]?.text || "I'll be right with you.";
-
       hideTyping();
       addBotMessage(reply);
       messages.push({ role: 'assistant', content: reply });
-
     } catch (error) {
       hideTyping();
       addBotMessage("Sorry, I'm having trouble connecting. Please try again.");
