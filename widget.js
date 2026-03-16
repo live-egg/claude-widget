@@ -371,9 +371,9 @@
       <div id="sofia-input-area">
         <textarea id="sofia-input" placeholder="Ask me anything…" rows="1"></textarea>
         <button id="sofia-send">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-          </svg>
+         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" fill="white"/>
+</svg>
         </button>
       </div>
     </div>
