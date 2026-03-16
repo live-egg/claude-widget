@@ -14,7 +14,6 @@
 
     #sofia-widget * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── Button ── */
     #sofia-btn {
       position: fixed;
       bottom: 24px;
@@ -65,9 +64,7 @@
       filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
     }
 
-    #sofia-btn circle {
-      transition: opacity 0.2s;
-    }
+    #sofia-btn circle { transition: opacity 0.2s; }
 
     #sofia-btn:hover circle:nth-child(2) { animation: dot-pulse 0.8s ease-in-out infinite; }
     #sofia-btn:hover circle:nth-child(3) { animation: dot-pulse 0.8s ease-in-out 0.15s infinite; }
@@ -107,7 +104,6 @@
       text-shadow: 0 1px 3px rgba(0,0,0,0.35);
     }
 
-    /* ── Tooltip ── */
     #sofia-tooltip {
       position: fixed;
       bottom: 96px;
@@ -143,7 +139,6 @@
       transform: rotate(45deg);
     }
 
-    /* ── Chat window ── */
     #sofia-chat {
       position: fixed;
       bottom: 96px;
@@ -171,7 +166,6 @@
       opacity: 1;
     }
 
-    /* ── Header ── */
     #sofia-header {
       padding: 16px 20px;
       background: linear-gradient(180deg, #1a1814 0%, #131210 100%);
@@ -246,7 +240,6 @@
 
     #sofia-close:hover { background: rgba(255,255,255,0.1); color: #f0ebe0; }
 
-    /* ── Messages ── */
     #sofia-messages {
       flex: 1;
       overflow-y: auto;
@@ -264,7 +257,7 @@
 
     .sofia-msg {
       max-width: 80%;
-      padding: 15px 21px;
+      padding: 14px 20px;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       line-height: 1.6;
@@ -277,35 +270,34 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Bot — темно-зелений відтінок */
+    /* Бот — золотий текст на темному фоні */
     .sofia-msg.bot {
-      background: #141f18;
-      color: #d4ead8;
+      background: #1a1608;
+      color: #f5e4a0;
       border-radius: 18px 18px 18px 4px;
-      border: 1.5px solid rgba(74,160,90,0.35);
+      border: 1.5px solid rgba(201,151,58,0.4);
       align-self: flex-start;
       box-shadow: 0 2px 12px rgba(0,0,0,0.3);
     }
 
-    /* User — темно-золотий відтінок */
+    /* Юзер — зелений текст на темному фоні */
     .sofia-msg.user {
-      background: #1e1608;
-      color: #f5e4a0;
+      background: #101a12;
+      color: #d4ead8;
       border-radius: 18px 18px 4px 18px;
-      border: 1.5px solid rgba(201,151,58,0.45);
+      border: 1.5px solid rgba(74,160,90,0.4);
       align-self: flex-end;
       text-align: right;
       box-shadow: 0 2px 12px rgba(0,0,0,0.3);
     }
 
-    /* ── Typing ── */
     .sofia-typing {
       display: flex;
       gap: 5px;
       padding: 14px 18px;
-      background: #141f18;
+      background: #1a1608;
       border-radius: 18px 18px 18px 4px;
-      border: 1.5px solid rgba(74,160,90,0.35);
+      border: 1.5px solid rgba(201,151,58,0.4);
       align-self: flex-start;
       animation: sofia-msg-in 0.25s ease forwards;
       box-shadow: 0 2px 12px rgba(0,0,0,0.3);
@@ -314,7 +306,7 @@
     .sofia-typing span {
       width: 6px;
       height: 6px;
-      background: #4ade80;
+      background: #c9973a;
       border-radius: 50%;
       animation: sofia-bounce 1.3s ease-in-out infinite;
     }
@@ -327,7 +319,6 @@
       30% { transform: translateY(-5px); opacity: 1; }
     }
 
-    /* ── Input ── */
     #sofia-input-area {
       padding: 12px 14px;
       background: #0f0e0c;
@@ -343,7 +334,7 @@
       background: rgba(255,255,255,0.05);
       border: 1.5px solid rgba(201,151,58,0.25);
       border-radius: 14px;
-      padding: 11px 14px;
+      padding: 11px 16px;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       color: #e8e0d0;
@@ -379,7 +370,6 @@
     #sofia-send:active { transform: scale(0.94); }
     #sofia-send svg { width: 18px; height: 18px; fill: #0f0e0c; }
 
-    /* ── Mobile ── */
     @media (max-width: 480px) {
       #sofia-btn { bottom: 16px; right: 16px; height: 54px; padding: 0 18px 0 12px; }
       #sofia-chat {
