@@ -53,12 +53,32 @@
 
     #sofia-btn:active { transform: scale(0.96); }
 
-    #sofia-btn svg {
-      width: 30px;
-      height: 30px;
-      position: relative;
-      z-index: 1;
-    }
+#sofia-btn svg {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+#sofia-btn circle {
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+#sofia-btn:hover circle:nth-child(1) {
+  animation: dot-pulse 0.8s ease-in-out infinite;
+}
+#sofia-btn:hover circle:nth-child(2) {
+  animation: dot-pulse 0.8s ease-in-out 0.15s infinite;
+}
+#sofia-btn:hover circle:nth-child(3) {
+  animation: dot-pulse 0.8s ease-in-out 0.3s infinite;
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 0.5; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-2px); }
+}
 
     #sofia-tooltip {
       position: fixed;
