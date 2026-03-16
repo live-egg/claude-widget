@@ -14,6 +14,7 @@
 
     #sofia-widget * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ── Button ── */
     #sofia-btn {
       position: fixed;
       bottom: 24px;
@@ -61,25 +62,20 @@
       position: relative;
       z-index: 1;
       flex-shrink: 0;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
     }
 
     #sofia-btn circle {
       transition: opacity 0.2s;
     }
 
-    #sofia-btn:hover circle:nth-child(2) {
-      animation: dot-pulse 0.8s ease-in-out infinite;
-    }
-    #sofia-btn:hover circle:nth-child(3) {
-      animation: dot-pulse 0.8s ease-in-out 0.15s infinite;
-    }
-    #sofia-btn:hover circle:nth-child(4) {
-      animation: dot-pulse 0.8s ease-in-out 0.3s infinite;
-    }
+    #sofia-btn:hover circle:nth-child(2) { animation: dot-pulse 0.8s ease-in-out infinite; }
+    #sofia-btn:hover circle:nth-child(3) { animation: dot-pulse 0.8s ease-in-out 0.15s infinite; }
+    #sofia-btn:hover circle:nth-child(4) { animation: dot-pulse 0.8s ease-in-out 0.3s infinite; }
 
     @keyframes dot-pulse {
       0%, 100% { opacity: 1; transform: translateY(0); }
-      50% { opacity: 0.6; transform: translateY(-2px); }
+      50% { opacity: 0.5; transform: translateY(-2px); }
     }
 
     #sofia-btn-text {
@@ -94,22 +90,24 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 15px;
       font-weight: 700;
-      color: #1a1814;
+      color: #ffffff;
       letter-spacing: 0.01em;
       line-height: 1.2;
       white-space: nowrap;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
     }
 
     #sofia-btn-sub {
       font-family: 'DM Sans', sans-serif;
       font-size: 11px;
       font-weight: 500;
-      color: rgba(26,24,20,0.65);
+      color: rgba(255,255,255,0.9);
       line-height: 1.2;
       white-space: nowrap;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.35);
     }
 
-    /* Tooltip */
+    /* ── Tooltip ── */
     #sofia-tooltip {
       position: fixed;
       bottom: 96px;
@@ -130,10 +128,7 @@
       pointer-events: none;
     }
 
-    #sofia-tooltip.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    #sofia-tooltip.visible { opacity: 1; transform: translateY(0); }
 
     #sofia-tooltip::after {
       content: '';
@@ -148,7 +143,7 @@
       transform: rotate(45deg);
     }
 
-    /* Chat window */
+    /* ── Chat window ── */
     #sofia-chat {
       position: fixed;
       bottom: 96px;
@@ -176,11 +171,11 @@
       opacity: 1;
     }
 
-    /* Header */
+    /* ── Header ── */
     #sofia-header {
       padding: 16px 20px;
       background: linear-gradient(180deg, #1a1814 0%, #131210 100%);
-      border-bottom: 1px solid rgba(201,151,58,0.15);
+      border-bottom: 1px solid rgba(201,151,58,0.2);
       display: flex;
       align-items: center;
       gap: 12px;
@@ -234,7 +229,7 @@
 
     #sofia-close {
       background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
       border-radius: 8px;
       cursor: pointer;
       color: #6b6560;
@@ -251,14 +246,14 @@
 
     #sofia-close:hover { background: rgba(255,255,255,0.1); color: #f0ebe0; }
 
-    /* Messages */
+    /* ── Messages ── */
     #sofia-messages {
       flex: 1;
       overflow-y: auto;
       padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       background: #0d0c0a;
       -webkit-overflow-scrolling: touch;
     }
@@ -268,52 +263,58 @@
     #sofia-messages::-webkit-scrollbar-thumb { background: rgba(201,151,58,0.2); border-radius: 2px; }
 
     .sofia-msg {
-      max-width: 85%;
-      padding: 11px 15px;
+      max-width: 80%;
+      padding: 13px 16px;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
-      line-height: 1.55;
+      line-height: 1.6;
       animation: sofia-msg-in 0.25s ease forwards;
       word-wrap: break-word;
     }
 
     @keyframes sofia-msg-in {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Bot — темно-зелений відтінок */
     .sofia-msg.bot {
-      background: linear-gradient(135deg, #1e1c18 0%, #181612 100%);
-      color: #e8e0d0;
-      border-radius: 16px 16px 16px 4px;
-      border: 1px solid rgba(201,151,58,0.12);
+      background: #141f18;
+      color: #d4ead8;
+      border-radius: 18px 18px 18px 4px;
+      border: 1.5px solid rgba(74,160,90,0.35);
       align-self: flex-start;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
     }
 
+    /* User — темно-золотий відтінок */
     .sofia-msg.user {
-      background: linear-gradient(135deg, #2a1f08 0%, #1e1608 100%);
-      color: #f0d89a;
-      border-radius: 16px 16px 4px 16px;
-      border: 1px solid rgba(201,151,58,0.25);
+      background: #1e1608;
+      color: #f5e4a0;
+      border-radius: 18px 18px 4px 18px;
+      border: 1.5px solid rgba(201,151,58,0.45);
       align-self: flex-end;
       text-align: right;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
     }
 
+    /* ── Typing ── */
     .sofia-typing {
       display: flex;
       gap: 5px;
-      padding: 14px 16px;
-      background: linear-gradient(135deg, #1e1c18, #181612);
-      border-radius: 16px 16px 16px 4px;
-      border: 1px solid rgba(201,151,58,0.12);
+      padding: 14px 18px;
+      background: #141f18;
+      border-radius: 18px 18px 18px 4px;
+      border: 1.5px solid rgba(74,160,90,0.35);
       align-self: flex-start;
       animation: sofia-msg-in 0.25s ease forwards;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
     }
 
     .sofia-typing span {
-      width: 5px;
-      height: 5px;
-      background: #c9973a;
+      width: 6px;
+      height: 6px;
+      background: #4ade80;
       border-radius: 50%;
       animation: sofia-bounce 1.3s ease-in-out infinite;
     }
@@ -326,11 +327,11 @@
       30% { transform: translateY(-5px); opacity: 1; }
     }
 
-    /* Input */
+    /* ── Input ── */
     #sofia-input-area {
       padding: 12px 14px;
-      background: linear-gradient(180deg, #131210 0%, #0f0e0c 100%);
-      border-top: 1px solid rgba(201,151,58,0.1);
+      background: #0f0e0c;
+      border-top: 1px solid rgba(201,151,58,0.15);
       display: flex;
       gap: 10px;
       align-items: flex-end;
@@ -339,29 +340,29 @@
 
     #sofia-input {
       flex: 1;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(201,151,58,0.2);
-      border-radius: 12px;
-      padding: 10px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(201,151,58,0.25);
+      border-radius: 14px;
+      padding: 11px 14px;
       font-family: 'DM Sans', sans-serif;
       font-size: 14px;
       color: #e8e0d0;
       resize: none;
       outline: none;
       max-height: 80px;
-      min-height: 44px;
+      min-height: 46px;
       line-height: 1.5;
       transition: border-color 0.2s, background 0.2s;
       -webkit-appearance: none;
     }
 
-    #sofia-input::placeholder { color: rgba(240,235,224,0.25); font-style: italic; }
-    #sofia-input:focus { border-color: rgba(201,151,58,0.5); background: rgba(255,255,255,0.06); }
+    #sofia-input::placeholder { color: rgba(240,235,224,0.3); font-style: italic; }
+    #sofia-input:focus { border-color: rgba(201,151,58,0.6); background: rgba(255,255,255,0.07); }
 
     #sofia-send {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
       background: linear-gradient(135deg, #d4a843, #b8882e);
       border: none;
       cursor: pointer;
@@ -370,7 +371,7 @@
       justify-content: center;
       flex-shrink: 0;
       transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
-      box-shadow: 0 2px 12px rgba(201,151,58,0.3);
+      box-shadow: 0 2px 12px rgba(201,151,58,0.35);
       -webkit-tap-highlight-color: transparent;
     }
 
@@ -378,22 +379,13 @@
     #sofia-send:active { transform: scale(0.94); }
     #sofia-send svg { width: 18px; height: 18px; fill: #0f0e0c; }
 
-    /* Mobile */
+    /* ── Mobile ── */
     @media (max-width: 480px) {
-      #sofia-btn {
-        bottom: 16px;
-        right: 16px;
-        height: 54px;
-        padding: 0 18px 0 12px;
-      }
+      #sofia-btn { bottom: 16px; right: 16px; height: 54px; padding: 0 18px 0 12px; }
       #sofia-chat {
-        right: 0;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        max-width: 100%;
-        height: 85vh;
-        max-height: 85vh;
+        right: 0; left: 0; bottom: 0;
+        width: 100%; max-width: 100%;
+        height: 85vh; max-height: 85vh;
         border-radius: 20px 20px 0 0;
         border-bottom: none;
       }
@@ -410,10 +402,10 @@
   widget.innerHTML = `
     <button id="sofia-btn" aria-label="Chat with Sofia">
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16 2C8.27 2 2 7.82 2 15c0 3.3 1.3 6.3 3.45 8.55L4 30l7.2-2.4C12.67 28.18 14.3 28.5 16 28.5c7.73 0 14-5.82 14-13S23.73 2 16 2z" fill="#1a1814"/>
-        <circle cx="11" cy="15" r="1.5" fill="#d4a843"/>
-        <circle cx="16" cy="15" r="1.5" fill="#d4a843"/>
-        <circle cx="21" cy="15" r="1.5" fill="#d4a843"/>
+        <path d="M16 2C8.27 2 2 7.82 2 15c0 3.3 1.3 6.3 3.45 8.55L4 30l7.2-2.4C12.67 28.18 14.3 28.5 16 28.5c7.73 0 14-5.82 14-13S23.73 2 16 2z" fill="white"/>
+        <circle cx="11" cy="15" r="1.8" fill="#b8882e"/>
+        <circle cx="16" cy="15" r="1.8" fill="#b8882e"/>
+        <circle cx="21" cy="15" r="1.8" fill="#b8882e"/>
       </svg>
       <div id="sofia-btn-text">
         <span id="sofia-btn-title">Chat with Sofia</span>
