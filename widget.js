@@ -89,25 +89,26 @@
       align-items: flex-start;
       position: relative;
       z-index: 1;
-    }
 
-    #sofia-btn-title {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      color: white;
-      letter-spacing: 0.02em;
-      line-height: 1.2;
-      white-space: nowrap;
-    }
-
-    #sofia-btn-sub {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 10px;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.2;
-      white-space: nowrap;
-    }
+#sofia-btn-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+#sofia-btn-sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.95);
+  line-height: 1.2;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
 
     #sofia-tooltip {
       position: fixed;
