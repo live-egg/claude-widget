@@ -1,5 +1,4 @@
 (function() {
-  // Get widget ID from script tag
   const scripts = document.getElementsByTagName('script');
   const currentScript = scripts[scripts.length - 1];
   const src = currentScript.src;
@@ -10,213 +9,318 @@
     return;
   }
 
-  // Styles
   const styles = `
-    #sofia-widget * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+    #sofia-widget * { box-sizing: border-box; margin: 0; padding: 0; }
     
+    /* ── Launch Button ── */
     #sofia-btn {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
-      width: 56px;
-      height: 56px;
+      bottom: 28px;
+      right: 28px;
+      width: 62px;
+      height: 62px;
       border-radius: 50%;
-      background: #c9973a;
+      background: linear-gradient(135deg, #d4a843 0%, #b8882e 50%, #c9973a 100%);
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(201,151,58,0.4);
+      box-shadow: 0 4px 24px rgba(201,151,58,0.45), 0 1px 4px rgba(0,0,0,0.3);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 99999;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
+    }
+
+    #sofia-btn::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(212,168,67,0.4), transparent);
+      animation: sofia-pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes sofia-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.18); opacity: 0; }
     }
 
     #sofia-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 24px rgba(201,151,58,0.5);
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 8px 32px rgba(201,151,58,0.6), 0 2px 8px rgba(0,0,0,0.3);
     }
 
-    #sofia-btn svg { width: 24px; height: 24px; fill: #0f0e0c; }
+    #sofia-btn:active { transform: scale(0.96); }
 
+    #sofia-btn svg { width: 26px; height: 26px; fill: #0f0e0c; position: relative; z-index: 1; }
+
+    /* ── Chat Window ── */
     #sofia-chat {
       position: fixed;
-      bottom: 92px;
-      right: 24px;
-      width: 360px;
-      height: 520px;
-      background: #0f0e0c;
-      border: 1px solid #2a2825;
-      border-radius: 16px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+      bottom: 106px;
+      right: 28px;
+      width: 370px;
+      height: 540px;
+      background: #0d0c0a;
+      border: 1px solid rgba(201,151,58,0.2);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
       display: none;
       flex-direction: column;
       z-index: 99998;
       overflow: hidden;
+      transform: translateY(12px) scale(0.97);
+      opacity: 0;
+      transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease;
     }
 
-    #sofia-chat.open { display: flex; }
+    #sofia-chat.open {
+      display: flex;
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
 
+    /* ── Header ── */
     #sofia-header {
-      padding: 16px 20px;
-      background: #1a1916;
-      border-bottom: 1px solid #2a2825;
+      padding: 18px 20px;
+      background: linear-gradient(180deg, #1a1814 0%, #131210 100%);
+      border-bottom: 1px solid rgba(201,151,58,0.15);
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      flex-shrink: 0;
     }
 
     #sofia-avatar {
-      width: 36px;
-      height: 36px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: #c9973a;
+      background: linear-gradient(135deg, #d4a843, #9a6e1e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 12px rgba(201,151,58,0.3);
+    }
+
+    #sofia-header-info { flex: 1; }
+
+    #sofia-header-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #f0ebe0;
+      letter-spacing: 0.02em;
+      line-height: 1.2;
+    }
+
+    #sofia-header-status {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: #c9973a;
+      letter-spacing: 0.04em;
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    #sofia-header-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 6px rgba(74,222,128,0.6);
+      flex-shrink: 0;
+    }
+
+    #sofia-close {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      color: #6b6560;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 16px;
-      flex-shrink: 0;
-    }
-
-    #sofia-header-info { flex: 1; }
-    #sofia-header-name { font-size: 14px; font-weight: 600; color: #f0ebe0; }
-    #sofia-header-status { font-size: 11px; color: #c9973a; }
-
-    #sofia-close {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #6b6560;
-      font-size: 20px;
       line-height: 1;
-      padding: 0;
+      transition: background 0.2s, color 0.2s;
     }
 
-    #sofia-close:hover { color: #f0ebe0; }
+    #sofia-close:hover {
+      background: rgba(255,255,255,0.1);
+      color: #f0ebe0;
+    }
 
+    /* ── Messages ── */
     #sofia-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 16px;
+      padding: 20px 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      background: #0d0c0a;
     }
 
-    #sofia-messages::-webkit-scrollbar { width: 4px; }
+    #sofia-messages::-webkit-scrollbar { width: 3px; }
     #sofia-messages::-webkit-scrollbar-track { background: transparent; }
-    #sofia-messages::-webkit-scrollbar-thumb { background: #2a2825; border-radius: 2px; }
+    #sofia-messages::-webkit-scrollbar-thumb { background: rgba(201,151,58,0.2); border-radius: 2px; }
 
     .sofia-msg {
-      max-width: 85%;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 14px;
-      line-height: 1.5;
+      max-width: 82%;
+      padding: 11px 15px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      line-height: 1.55;
+      animation: sofia-msg-in 0.25s ease forwards;
+    }
+
+    @keyframes sofia-msg-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .sofia-msg.bot {
-      background: #1a1916;
-      color: #f0ebe0;
-      border-bottom-left-radius: 4px;
+      background: linear-gradient(135deg, #1e1c18 0%, #181612 100%);
+      color: #e8e0d0;
+      border-radius: 16px 16px 16px 4px;
+      border: 1px solid rgba(201,151,58,0.12);
       align-self: flex-start;
     }
 
     .sofia-msg.user {
-      background: #c9973a;
-      color: #0f0e0c;
-      border-bottom-right-radius: 4px;
+      background: linear-gradient(135deg, #2a1f08 0%, #1e1608 100%);
+      color: #f0d89a;
+      border-radius: 16px 16px 4px 16px;
+      border: 1px solid rgba(201,151,58,0.25);
       align-self: flex-end;
+      text-align: right;
     }
 
+    /* ── Typing ── */
     .sofia-typing {
       display: flex;
-      gap: 4px;
-      padding: 10px 14px;
-      background: #1a1916;
-      border-radius: 12px;
-      border-bottom-left-radius: 4px;
+      gap: 5px;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, #1e1c18, #181612);
+      border-radius: 16px 16px 16px 4px;
+      border: 1px solid rgba(201,151,58,0.12);
       align-self: flex-start;
+      animation: sofia-msg-in 0.25s ease forwards;
     }
 
     .sofia-typing span {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       background: #c9973a;
       border-radius: 50%;
-      animation: typing 1.2s infinite;
+      animation: sofia-bounce 1.3s ease-in-out infinite;
     }
 
-    .sofia-typing span:nth-child(2) { animation-delay: 0.2s; }
-    .sofia-typing span:nth-child(3) { animation-delay: 0.4s; }
+    .sofia-typing span:nth-child(2) { animation-delay: 0.15s; }
+    .sofia-typing span:nth-child(3) { animation-delay: 0.3s; }
 
-    @keyframes typing {
-      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-      30% { transform: translateY(-4px); opacity: 1; }
+    @keyframes sofia-bounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
+      30% { transform: translateY(-5px); opacity: 1; }
     }
 
+    /* ── Input Area ── */
     #sofia-input-area {
-      padding: 12px 16px;
-      background: #1a1916;
-      border-top: 1px solid #2a2825;
+      padding: 14px 16px;
+      background: linear-gradient(180deg, #131210 0%, #0f0e0c 100%);
+      border-top: 1px solid rgba(201,151,58,0.1);
       display: flex;
-      gap: 8px;
+      gap: 10px;
       align-items: flex-end;
+      flex-shrink: 0;
     }
 
     #sofia-input {
       flex: 1;
-      background: #0f0e0c;
-      border: 1px solid #2a2825;
-      border-radius: 8px;
-      padding: 10px 12px;
-      font-size: 14px;
-      color: #f0ebe0;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(201,151,58,0.2);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
+      color: #e8e0d0;
       resize: none;
       outline: none;
       max-height: 80px;
-      min-height: 40px;
-      line-height: 1.4;
+      min-height: 42px;
+      line-height: 1.5;
+      transition: border-color 0.2s, background 0.2s;
     }
 
-    #sofia-input::placeholder { color: #6b6560; }
-    #sofia-input:focus { border-color: #c9973a; }
+    #sofia-input::placeholder {
+      color: rgba(240,235,224,0.25);
+      font-style: italic;
+    }
+
+    #sofia-input:focus {
+      border-color: rgba(201,151,58,0.5);
+      background: rgba(255,255,255,0.06);
+    }
 
     #sofia-send {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: #c9973a;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #d4a843, #b8882e);
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: opacity 0.2s;
+      transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease, opacity 0.2s;
+      box-shadow: 0 2px 12px rgba(201,151,58,0.3);
     }
 
-    #sofia-send:hover { opacity: 0.85; }
-    #sofia-send svg { width: 16px; height: 16px; fill: #0f0e0c; }
+    #sofia-send:hover {
+      transform: scale(1.06) translateY(-1px);
+      box-shadow: 0 4px 16px rgba(201,151,58,0.5);
+    }
 
-    @media (max-width: 400px) {
-      #sofia-chat { width: calc(100vw - 32px); right: 16px; bottom: 84px; }
-      #sofia-btn { right: 16px; bottom: 16px; }
+    #sofia-send:active { transform: scale(0.94); }
+    #sofia-send svg { width: 17px; height: 17px; fill: #0f0e0c; }
+
+    /* ── Divider ── */
+    .sofia-divider {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      color: rgba(201,151,58,0.35);
+      text-align: center;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 4px 0;
+    }
+
+    @media (max-width: 420px) {
+      #sofia-chat { width: calc(100vw - 24px); right: 12px; bottom: 90px; }
+      #sofia-btn { right: 12px; bottom: 16px; }
     }
   `;
 
-  // Inject styles
   const styleEl = document.createElement('style');
   styleEl.textContent = styles;
   document.head.appendChild(styleEl);
 
-  // Create widget HTML
   const widget = document.createElement('div');
   widget.id = 'sofia-widget';
   widget.innerHTML = `
     <button id="sofia-btn" aria-label="Chat with Sofia">
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+        <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l4.93-1.37C8.42 21.5 10.15 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm-1 14H7v-2h4v2zm6 0h-4v-2h4v2zm0-4H7V8h10v4z"/>
       </svg>
     </button>
 
@@ -225,15 +329,15 @@
         <div id="sofia-avatar">💛</div>
         <div id="sofia-header-info">
           <div id="sofia-header-name">Sofia</div>
-          <div id="sofia-header-status">● Online now</div>
+          <div id="sofia-header-status">Online now</div>
         </div>
-        <button id="sofia-close">×</button>
+        <button id="sofia-close">✕</button>
       </div>
 
       <div id="sofia-messages"></div>
 
       <div id="sofia-input-area">
-        <textarea id="sofia-input" placeholder="Type a message..." rows="1"></textarea>
+        <textarea id="sofia-input" placeholder="Ask me anything…" rows="1"></textarea>
         <button id="sofia-send">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
@@ -244,7 +348,6 @@
   `;
   document.body.appendChild(widget);
 
-  // State
   let messages = [];
   let isOpen = false;
   let isTyping = false;
@@ -256,12 +359,13 @@
   const input = document.getElementById('sofia-input');
   const sendBtn = document.getElementById('sofia-send');
 
-  // Toggle chat
   btn.addEventListener('click', () => {
     isOpen = !isOpen;
     chat.classList.toggle('open', isOpen);
     if (isOpen && messages.length === 0) {
-      addBotMessage("Welcome 💛 I'm Sofia — how can I help you today?");
+      setTimeout(() => {
+        addBotMessage("Welcome 💛 I'm Sofia — how can I help you today?");
+      }, 200);
     }
     if (isOpen) input.focus();
   });
@@ -271,7 +375,6 @@
     chat.classList.remove('open');
   });
 
-  // Send message
   async function sendMessage() {
     const text = input.value.trim();
     if (!text || isTyping) return;
