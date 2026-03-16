@@ -10,9 +10,14 @@
   }
 
   const styles = `
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-    #sofia-widget * { box-sizing: border-box; margin: 0; padding: 0; }
+    #sofia-widget * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
 
     /* ── Button ── */
     #sofia-btn {
@@ -20,108 +25,90 @@
       bottom: 24px;
       right: 20px;
       width: auto;
-      height: 58px;
-      border-radius: 29px;
-      padding: 0 22px 0 14px;
+      height: 54px;
+      border-radius: 27px;
+      padding: 0 20px 0 14px;
       gap: 10px;
-      background: linear-gradient(135deg, #d4a843 0%, #b8882e 50%, #c9973a 100%);
+      background: linear-gradient(135deg, #d4a843 0%, #b8882e 100%);
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 24px rgba(201,151,58,0.45), 0 1px 4px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 20px rgba(180,130,40,0.45);
       display: flex;
       align-items: center;
       z-index: 99999;
-      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease;
-    }
-
-    #sofia-btn::before {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 34px;
-      background: linear-gradient(135deg, rgba(212,168,67,0.4), transparent);
-      animation: sofia-pulse 2.5s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    @keyframes sofia-pulse {
-      0%, 100% { transform: scale(1); opacity: 0.6; }
-      50% { transform: scale(1.04); opacity: 0; }
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     #sofia-btn:hover {
-      transform: scale(1.04) translateY(-2px);
-      box-shadow: 0 8px 32px rgba(201,151,58,0.6), 0 2px 8px rgba(0,0,0,0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(180,130,40,0.55);
     }
 
-    #sofia-btn:active { transform: scale(0.97); }
+    #sofia-btn:active { transform: scale(0.96); }
 
-    #sofia-btn svg {
-      width: 32px;
-      height: 32px;
-      position: relative;
-      z-index: 1;
-      flex-shrink: 0;
-      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.3));
-    }
-
-    #sofia-btn circle { transition: opacity 0.2s; }
-    #sofia-btn:hover circle:nth-child(2) { animation: dot-pulse 0.8s ease-in-out infinite; }
-    #sofia-btn:hover circle:nth-child(3) { animation: dot-pulse 0.8s ease-in-out 0.15s infinite; }
-    #sofia-btn:hover circle:nth-child(4) { animation: dot-pulse 0.8s ease-in-out 0.3s infinite; }
-
-    @keyframes dot-pulse {
-      0%, 100% { opacity: 1; transform: translateY(0); }
-      50% { opacity: 0.5; transform: translateY(-2px); }
-    }
-
-    #sofia-btn-text {
+    #sofia-btn-icon {
+      width: 30px;
+      height: 30px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      position: relative;
-      z-index: 1;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
+
+    #sofia-btn-icon svg { width: 17px; height: 17px; fill: #fff; }
+
+    #sofia-btn-text { display: flex; flex-direction: column; align-items: flex-start; }
 
     #sofia-btn-title {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      color: #ffffff;
-      letter-spacing: 0.01em;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
       line-height: 1.2;
       white-space: nowrap;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
     }
 
     #sofia-btn-sub {
-      font-family: 'DM Sans', sans-serif;
       font-size: 11px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.9);
+      font-weight: 400;
+      color: rgba(255,255,255,0.82);
       line-height: 1.2;
       white-space: nowrap;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.35);
+    }
+
+    /* pulse ring */
+    #sofia-btn::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 31px;
+      border: 2px solid rgba(212,168,67,0.4);
+      animation: sofia-ring 2.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes sofia-ring {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0; transform: scale(1.06); }
     }
 
     /* ── Tooltip ── */
     #sofia-tooltip {
       position: fixed;
-      bottom: 96px;
+      bottom: 90px;
       right: 20px;
-      background: #1e1c18;
-      border: 1px solid rgba(201,151,58,0.3);
-      border-radius: 12px 12px 4px 12px;
-      padding: 10px 14px;
-      font-family: 'DM Sans', sans-serif;
+      background: #1c1917;
+      border-radius: 10px 10px 2px 10px;
+      padding: 8px 14px;
       font-size: 13px;
-      color: #e8e0d0;
+      color: #e8dfc8;
       white-space: nowrap;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
       z-index: 99997;
       opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transform: translateY(4px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
       pointer-events: none;
     }
 
@@ -130,85 +117,79 @@
     #sofia-tooltip::after {
       content: '';
       position: absolute;
-      bottom: -6px;
-      right: 18px;
-      width: 10px;
-      height: 10px;
-      background: #1e1c18;
-      border-right: 1px solid rgba(201,151,58,0.3);
-      border-bottom: 1px solid rgba(201,151,58,0.3);
+      bottom: -5px;
+      right: 16px;
+      width: 9px;
+      height: 9px;
+      background: #1c1917;
       transform: rotate(45deg);
+      border-radius: 1px;
     }
 
     /* ── Chat window ── */
     #sofia-chat {
       position: fixed;
-      bottom: 96px;
+      bottom: 90px;
       right: 20px;
-      width: 380px;
+      width: 370px;
       max-width: calc(100vw - 24px);
-      height: 560px;
-      max-height: calc(100vh - 120px);
-      background: #111009;
-      border: 1px solid rgba(201,151,58,0.25);
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      height: 540px;
+      max-height: calc(100vh - 110px);
+      background: #18160f;
+      border-radius: 18px;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.65), 0 0 0 1px rgba(201,151,58,0.18);
       display: none;
       flex-direction: column;
       z-index: 99998;
       overflow: hidden;
-      transform: translateY(12px) scale(0.97);
+      transform-origin: bottom right;
+      transform: scale(0.95) translateY(10px);
       opacity: 0;
-      transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease;
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), opacity 0.2s ease;
     }
 
     #sofia-chat.open {
       display: flex;
-      transform: translateY(0) scale(1);
+      transform: scale(1) translateY(0);
       opacity: 1;
     }
 
     /* ── Header ── */
     #sofia-header {
-      padding: 16px 20px;
-      background: #1a1814;
-      border-bottom: 2px solid rgba(201,151,58,0.25);
+      padding: 14px 16px;
+      background: #1e1a10;
+      border-bottom: 1px solid rgba(201,151,58,0.15);
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
       flex-shrink: 0;
     }
 
     #sofia-avatar {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       background: linear-gradient(135deg, #d4a843, #9a6e1e);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 18px;
       flex-shrink: 0;
-      box-shadow: 0 2px 12px rgba(201,151,58,0.4);
     }
 
     #sofia-header-info { flex: 1; min-width: 0; }
 
     #sofia-header-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 600;
       color: #f5e4a0;
-      letter-spacing: 0.02em;
-      line-height: 1.2;
+      line-height: 1.3;
     }
 
     #sofia-header-status {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 11px;
-      color: #4ade80;
-      letter-spacing: 0.04em;
-      margin-top: 3px;
+      font-size: 12px;
+      color: #5dba77;
+      margin-top: 1px;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -216,163 +197,169 @@
 
     #sofia-header-status::before {
       content: '';
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: #4ade80;
-      box-shadow: 0 0 6px rgba(74,222,128,0.8);
+      background: #5dba77;
       flex-shrink: 0;
     }
 
     #sofia-close {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 8px;
+      background: transparent;
+      border: none;
       cursor: pointer;
-      color: #6b6560;
+      color: #7a7060;
       width: 32px;
       height: 32px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      transition: background 0.2s, color 0.2s;
+      font-size: 20px;
+      line-height: 1;
+      transition: background 0.15s, color 0.15s;
       flex-shrink: 0;
     }
 
-    #sofia-close:hover { background: rgba(255,255,255,0.12); color: #f0ebe0; }
+    #sofia-close:hover { background: rgba(255,255,255,0.08); color: #f0ebe0; }
 
     /* ── Messages area ── */
     #sofia-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 20px 16px;
+      padding: 16px 14px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      background: #111009;
+      gap: 3px;
+      background: #18160f;
       -webkit-overflow-scrolling: touch;
     }
 
     #sofia-messages::-webkit-scrollbar { width: 3px; }
     #sofia-messages::-webkit-scrollbar-track { background: transparent; }
-    #sofia-messages::-webkit-scrollbar-thumb { background: rgba(201,151,58,0.25); border-radius: 2px; }
+    #sofia-messages::-webkit-scrollbar-thumb { background: rgba(201,151,58,0.2); border-radius: 2px; }
 
-    /* ── Message bubbles — messenger style ── */
-    .sofia-msg {
-      max-width: 75%;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14.5px;
-      line-height: 1.6;
-      animation: sofia-msg-in 0.2s ease forwards;
+    /* ── Message bubbles — iMessage-like ── */
+    .sofia-msg-wrap {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 2px;
+      animation: sofia-in 0.18s ease forwards;
+    }
+
+    @keyframes sofia-in {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .sofia-msg-wrap.bot  { align-items: flex-start; }
+    .sofia-msg-wrap.user { align-items: flex-end; }
+
+    .sofia-bubble {
+      max-width: 78%;
+      padding: 10px 14px;
+      font-size: 14px;
+      line-height: 1.55;
       word-wrap: break-word;
-      position: relative;
+      word-break: break-word;
     }
 
-    .sofia-msg-inner {
-      padding: 12px 18px;
-      border-radius: 20px;
+    /* Bot bubble — warm gold-tinted dark */
+    .sofia-msg-wrap.bot .sofia-bubble {
+      background: #2b2009;
+      color: #f0e0bc;
+      border-radius: 18px 18px 18px 4px;
     }
 
-    @keyframes sofia-msg-in {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* User bubble — green-tinted dark */
+    .sofia-msg-wrap.user .sofia-bubble {
+      background: #152210;
+      color: #c4e8c8;
+      border-radius: 18px 18px 4px 18px;
+      text-align: left;
     }
 
-    /* Бот — золотий стиль */
-    .sofia-msg.bot {
-      align-self: flex-start;
+    /* Grouping: consecutive messages from same sender get tighter corners */
+    .sofia-msg-wrap.bot + .sofia-msg-wrap.bot .sofia-bubble {
+      border-radius: 4px 18px 18px 4px;
     }
 
-    .sofia-msg.bot .sofia-msg-inner {
-      background: #2a1e06;
-      color: #f5e4a0;
-      border-radius: 4px 20px 20px 20px;
-      border: 2px solid rgba(201,151,58,0.5);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+    .sofia-msg-wrap.bot:last-of-type .sofia-bubble,
+    .sofia-msg-wrap.bot + .sofia-msg-wrap.user ~ .sofia-msg-wrap.bot .sofia-bubble {
+      border-radius: 4px 18px 18px 18px;
     }
 
-    /* Юзер — зелений стиль */
-    .sofia-msg.user {
-      align-self: flex-end;
-    }
-
-    .sofia-msg.user .sofia-msg-inner {
-      background: #0e1f11;
-      color: #c8e6cc;
-      border-radius: 20px 4px 20px 20px;
-      border: 2px solid rgba(74,160,90,0.5);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
-      text-align: right;
+    .sofia-msg-wrap.user + .sofia-msg-wrap.user .sofia-bubble {
+      border-radius: 18px 4px 4px 18px;
     }
 
     /* ── Typing indicator ── */
-    .sofia-typing {
+    .sofia-typing-wrap {
       align-self: flex-start;
-      animation: sofia-msg-in 0.2s ease forwards;
+      animation: sofia-in 0.18s ease forwards;
+      margin-bottom: 2px;
     }
 
-    .sofia-typing-inner {
-      display: flex;
+    .sofia-typing-bubble {
+      padding: 12px 16px;
+      background: #2b2009;
+      border-radius: 18px 18px 18px 4px;
+      display: inline-flex;
       gap: 5px;
-      padding: 12px 18px;
-      background: #2a1e06;
-      border-radius: 4px 20px 20px 20px;
-      border: 2px solid rgba(201,151,58,0.5);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      align-items: center;
     }
 
-    .sofia-typing span {
-      width: 6px;
-      height: 6px;
+    .sofia-typing-bubble span {
+      width: 7px;
+      height: 7px;
       background: #c9973a;
       border-radius: 50%;
-      animation: sofia-bounce 1.3s ease-in-out infinite;
+      animation: sofia-dot 1.2s ease-in-out infinite;
     }
 
-    .sofia-typing span:nth-child(2) { animation-delay: 0.15s; }
-    .sofia-typing span:nth-child(3) { animation-delay: 0.3s; }
+    .sofia-typing-bubble span:nth-child(2) { animation-delay: 0.16s; }
+    .sofia-typing-bubble span:nth-child(3) { animation-delay: 0.32s; }
 
-    @keyframes sofia-bounce {
-      0%, 60%, 100% { transform: translateY(0); opacity: 0.35; }
-      30% { transform: translateY(-5px); opacity: 1; }
+    @keyframes sofia-dot {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-4px); opacity: 1; }
     }
 
     /* ── Input area ── */
     #sofia-input-area {
-      padding: 12px 14px;
-      background: #1a1814;
-      border-top: 2px solid rgba(201,151,58,0.2);
+      padding: 10px 12px;
+      background: #1e1a10;
+      border-top: 1px solid rgba(201,151,58,0.13);
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: flex-end;
       flex-shrink: 0;
     }
 
     #sofia-input {
       flex: 1;
-      background: #0f0e0c;
-      border: 2px solid rgba(201,151,58,0.3);
-      border-radius: 20px;
-      padding: 12px 18px;
-      font-family: 'DM Sans', sans-serif;
+      background: #252015;
+      border: 1.5px solid rgba(201,151,58,0.22);
+      border-radius: 22px;
+      padding: 11px 16px;
       font-size: 14px;
-      color: #e8e0d0;
+      color: #e8dfc8;
       resize: none;
       outline: none;
-      max-height: 80px;
-      min-height: 46px;
-      line-height: 1.5;
+      max-height: 90px;
+      min-height: 44px;
+      line-height: 1.45;
       transition: border-color 0.2s, background 0.2s;
       -webkit-appearance: none;
+      display: block;
     }
 
-    #sofia-input::placeholder { color: rgba(240,235,224,0.3); font-style: italic; }
-    #sofia-input:focus { border-color: rgba(201,151,58,0.7); background: #111009; }
+    #sofia-input::placeholder { color: rgba(232,223,200,0.28); }
+    #sofia-input:focus { border-color: rgba(201,151,58,0.55); background: #1e1a10; }
 
     #sofia-send {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: linear-gradient(135deg, #d4a843, #b8882e);
       border: none;
@@ -381,26 +368,27 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform 0.2s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s ease;
-      box-shadow: 0 2px 12px rgba(201,151,58,0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 2px 10px rgba(180,130,40,0.4);
       -webkit-tap-highlight-color: transparent;
     }
 
-    #sofia-send:hover { transform: scale(1.08) translateY(-1px); box-shadow: 0 4px 18px rgba(201,151,58,0.6); }
-    #sofia-send:active { transform: scale(0.93); }
-    #sofia-send svg { width: 18px; height: 18px; fill: #0f0e0c; margin-left: 2px; }
+    #sofia-send:hover { transform: scale(1.07); box-shadow: 0 4px 16px rgba(180,130,40,0.55); }
+    #sofia-send:active { transform: scale(0.92); }
+
+    #sofia-send svg { width: 17px; height: 17px; fill: #fff; margin-left: 2px; }
 
     /* ── Mobile ── */
     @media (max-width: 480px) {
-      #sofia-btn { bottom: 16px; right: 16px; height: 54px; padding: 0 18px 0 12px; }
+      #sofia-btn { bottom: 16px; right: 14px; height: 50px; padding: 0 16px 0 12px; }
       #sofia-chat {
         right: 0; left: 0; bottom: 0;
         width: 100%; max-width: 100%;
-        height: 85vh; max-height: 85vh;
+        height: 80vh; max-height: 80vh;
         border-radius: 20px 20px 0 0;
-        border-bottom: none;
+        bottom: 0;
       }
-      #sofia-tooltip { right: 16px; bottom: 84px; }
+      #sofia-tooltip { right: 14px; bottom: 80px; }
     }
   `;
 
@@ -412,17 +400,17 @@
   widget.id = 'sofia-widget';
   widget.innerHTML = `
     <button id="sofia-btn" aria-label="Chat with Sofia">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16 2C8.27 2 2 7.82 2 15c0 3.3 1.3 6.3 3.45 8.55L4 30l7.2-2.4C12.67 28.18 14.3 28.5 16 28.5c7.73 0 14-5.82 14-13S23.73 2 16 2z" fill="white"/>
-        <circle cx="11" cy="15" r="1.8" fill="#b8882e"/>
-        <circle cx="16" cy="15" r="1.8" fill="#b8882e"/>
-        <circle cx="21" cy="15" r="1.8" fill="#b8882e"/>
-      </svg>
+      <div id="sofia-btn-icon">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+        </svg>
+      </div>
       <div id="sofia-btn-text">
         <span id="sofia-btn-title">Chat with Sofia</span>
         <span id="sofia-btn-sub">AI Beauty Assistant</span>
       </div>
     </button>
+
     <div id="sofia-tooltip">Need help booking? 💛</div>
 
     <div id="sofia-chat">
@@ -432,12 +420,12 @@
           <div id="sofia-header-name">Sofia</div>
           <div id="sofia-header-status">Online now</div>
         </div>
-        <button id="sofia-close">✕</button>
+        <button id="sofia-close" aria-label="Close">✕</button>
       </div>
       <div id="sofia-messages"></div>
       <div id="sofia-input-area">
         <textarea id="sofia-input" placeholder="Type a message…" rows="1"></textarea>
-        <button id="sofia-send">
+        <button id="sofia-send" aria-label="Send">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
           </svg>
@@ -452,30 +440,30 @@
   let isTyping = false;
   let tooltipShown = false;
 
-  const chat = document.getElementById('sofia-chat');
-  const btn = document.getElementById('sofia-btn');
-  const closeBtn = document.getElementById('sofia-close');
-  const messagesEl = document.getElementById('sofia-messages');
-  const input = document.getElementById('sofia-input');
+  const chat    = document.getElementById('sofia-chat');
+  const btn     = document.getElementById('sofia-btn');
+  const closeBtn= document.getElementById('sofia-close');
+  const msgArea = document.getElementById('sofia-messages');
+  const input   = document.getElementById('sofia-input');
   const sendBtn = document.getElementById('sofia-send');
   const tooltip = document.getElementById('sofia-tooltip');
 
+  /* tooltip after 15s */
   setTimeout(() => {
     if (!isOpen && !tooltipShown) {
       tooltipShown = true;
       tooltip.classList.add('visible');
-      setTimeout(() => { tooltip.classList.remove('visible'); }, 5000);
+      setTimeout(() => tooltip.classList.remove('visible'), 5000);
     }
   }, 15000);
 
+  /* open / close */
   btn.addEventListener('click', () => {
     tooltip.classList.remove('visible');
     isOpen = !isOpen;
     chat.classList.toggle('open', isOpen);
     if (isOpen && messages.length === 0) {
-      setTimeout(() => {
-        addBotMessage("Welcome 💛 I'm Sofia — how can I help you today?");
-      }, 200);
+      setTimeout(() => addBotMsg("Welcome 💛 I'm Sofia — how can I help you today?"), 200);
     }
     if (isOpen) input.focus();
   });
@@ -485,91 +473,85 @@
     chat.classList.remove('open');
   });
 
+  /* send */
   async function sendMessage() {
     const text = input.value.trim();
     if (!text || isTyping) return;
-
     input.value = '';
     input.style.height = 'auto';
-
-    addUserMessage(text);
+    addUserMsg(text);
     messages.push({ role: 'user', content: text });
     showTyping();
 
     try {
-      const response = await fetch('https://claude-widget.vercel.app/api/widget', {
+      const res = await fetch('https://claude-widget.vercel.app/api/widget', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages, widgetId })
       });
-
-      const data = await response.json();
+      const data = await res.json();
       const reply = data.content?.[0]?.text || "I'll be right with you.";
       hideTyping();
-      addBotMessage(reply);
+      addBotMsg(reply);
       messages.push({ role: 'assistant', content: reply });
-    } catch (error) {
+    } catch {
       hideTyping();
-      addBotMessage("Sorry, I'm having trouble connecting. Please try again.");
+      addBotMsg("Sorry, I'm having trouble connecting. Please try again.");
     }
   }
 
   sendBtn.addEventListener('click', sendMessage);
 
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });
 
   input.addEventListener('input', () => {
     input.style.height = 'auto';
-    input.style.height = Math.min(input.scrollHeight, 80) + 'px';
+    input.style.height = Math.min(input.scrollHeight, 90) + 'px';
   });
 
-  function addBotMessage(text) {
-    const msg = document.createElement('div');
-    msg.className = 'sofia-msg bot';
-    msg.innerHTML = `<div class="sofia-msg-inner">${escapeHtml(text)}</div>`;
-    messagesEl.appendChild(msg);
-    scrollToBottom();
+  /* helpers */
+  function addBotMsg(text) {
+    const wrap = document.createElement('div');
+    wrap.className = 'sofia-msg-wrap bot';
+    const bubble = document.createElement('div');
+    bubble.className = 'sofia-bubble';
+    bubble.textContent = text;
+    wrap.appendChild(bubble);
+    msgArea.appendChild(wrap);
+    scrollEnd();
   }
 
-  function addUserMessage(text) {
-    const msg = document.createElement('div');
-    msg.className = 'sofia-msg user';
-    msg.innerHTML = `<div class="sofia-msg-inner">${escapeHtml(text)}</div>`;
-    messagesEl.appendChild(msg);
-    scrollToBottom();
+  function addUserMsg(text) {
+    const wrap = document.createElement('div');
+    wrap.className = 'sofia-msg-wrap user';
+    const bubble = document.createElement('div');
+    bubble.className = 'sofia-bubble';
+    bubble.textContent = text;
+    wrap.appendChild(bubble);
+    msgArea.appendChild(wrap);
+    scrollEnd();
   }
 
   function showTyping() {
     isTyping = true;
-    const typing = document.createElement('div');
-    typing.className = 'sofia-typing';
-    typing.id = 'sofia-typing';
-    typing.innerHTML = '<div class="sofia-typing-inner"><span></span><span></span><span></span></div>';
-    messagesEl.appendChild(typing);
-    scrollToBottom();
+    const wrap = document.createElement('div');
+    wrap.className = 'sofia-typing-wrap';
+    wrap.id = 'sofia-typing';
+    wrap.innerHTML = '<div class="sofia-typing-bubble"><span></span><span></span><span></span></div>';
+    msgArea.appendChild(wrap);
+    scrollEnd();
   }
 
   function hideTyping() {
     isTyping = false;
-    const typing = document.getElementById('sofia-typing');
-    if (typing) typing.remove();
+    const t = document.getElementById('sofia-typing');
+    if (t) t.remove();
   }
 
-  function scrollToBottom() {
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  }
-
-  function escapeHtml(text) {
-    return text
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+  function scrollEnd() {
+    msgArea.scrollTop = msgArea.scrollHeight;
   }
 
 })();
