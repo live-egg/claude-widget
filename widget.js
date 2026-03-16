@@ -10,7 +10,7 @@
   }
 
   const styles = `
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap');
 
     #sofia-widget * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -23,10 +23,10 @@
       border-radius: 28px;
       padding: 0 20px 0 14px;
       gap: 10px;
-      background: linear-gradient(135deg, #1a1814 0%, #2a2218 100%);
-border: 1px solid rgba(201,151,58,0.6);
+      background: linear-gradient(135deg, #1e1b14 0%, #2a2218 100%);
+      border: 1.5px solid rgba(201,151,58,0.7);
       cursor: pointer;
-      box-shadow: 0 4px 24px rgba(201,151,58,0.45), 0 1px 4px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,151,58,0.1);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -39,7 +39,7 @@ border: 1px solid rgba(201,151,58,0.6);
       position: absolute;
       inset: -3px;
       border-radius: 32px;
-      background: linear-gradient(135deg, rgba(212,168,67,0.4), transparent);
+      background: linear-gradient(135deg, rgba(201,151,58,0.3), transparent);
       animation: sofia-pulse 2.5s ease-in-out infinite;
     }
 
@@ -50,7 +50,8 @@ border: 1px solid rgba(201,151,58,0.6);
 
     #sofia-btn:hover {
       transform: scale(1.04) translateY(-2px);
-      box-shadow: 0 8px 32px rgba(201,151,58,0.6), 0 2px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,151,58,0.3);
+      border-color: rgba(201,151,58,1);
     }
 
     #sofia-btn:active { transform: scale(0.97); }
@@ -89,26 +90,26 @@ border: 1px solid rgba(201,151,58,0.6);
       align-items: flex-start;
       position: relative;
       z-index: 1;
+    }
 
-#sofia-btn-title {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.01em;
-  line-height: 1.2;
-  white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-}
-#sofia-btn-sub {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.95);
-  line-height: 1.2;
-  white-space: nowrap;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.15);
-}
+    #sofia-btn-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.01em;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    #sofia-btn-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      color: #c9973a;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
 
     #sofia-tooltip {
       position: fixed;
@@ -397,7 +398,7 @@ border: 1px solid rgba(201,151,58,0.6);
   widget.innerHTML = `
     <button id="sofia-btn" aria-label="Chat with Sofia">
       <svg width="30" height="30" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16 2C8.27 2 2 7.82 2 15c0 3.3 1.3 6.3 3.45 8.55L4 30l7.2-2.4C12.67 28.18 14.3 28.5 16 28.5c7.73 0 14-5.82 14-13S23.73 2 16 2z" fill="white"/>
+        <path d="M16 2C8.27 2 2 7.82 2 15c0 3.3 1.3 6.3 3.45 8.55L4 30l7.2-2.4C12.67 28.18 14.3 28.5 16 28.5c7.73 0 14-5.82 14-13S23.73 2 16 2z" fill="#c9973a"/>
         <circle cx="11" cy="15" r="1.5" fill="#1a1814"/>
         <circle cx="16" cy="15" r="1.5" fill="#1a1814"/>
         <circle cx="21" cy="15" r="1.5" fill="#1a1814"/>
