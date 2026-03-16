@@ -245,7 +245,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      background: #18160f;
+      background: #0e0c07;
       -webkit-overflow-scrolling: touch;
     }
 
@@ -278,17 +278,17 @@
       word-break: break-word;
     }
 
-    /* Bot bubble — warm gold-tinted dark */
+    /* Bot bubble — warm gold */
     .sofia-msg-wrap.bot .sofia-bubble {
-      background: #2b2009;
-      color: #f0e0bc;
+      background: #3d2a08;
+      color: #faeec8;
       border-radius: 18px 18px 18px 4px;
     }
 
-    /* User bubble — green-tinted dark */
+    /* User bubble — rich green */
     .sofia-msg-wrap.user .sofia-bubble {
-      background: #152210;
-      color: #c4e8c8;
+      background: #1a3a1a;
+      color: #d4f0d4;
       border-radius: 18px 18px 4px 18px;
       text-align: left;
     }
@@ -316,7 +316,7 @@
 
     .sofia-typing-bubble {
       padding: 12px 16px;
-      background: #2b2009;
+      background: #3d2a08;
       border-radius: 18px 18px 18px 4px;
       display: inline-flex;
       gap: 5px;
