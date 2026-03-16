@@ -152,17 +152,17 @@
     }
 
     .sw-row.bot .sw-bubble {
-      background: #1a1916;
+      background: #221a0e;
       color: #f0ebe0;
       border-radius: 14px 14px 14px 3px;
-      border: 1px solid #2a2825;
+      border: 1px solid rgba(201,151,58,0.2);
     }
 
     .sw-row.user .sw-bubble {
-      background: #c9973a;
-      color: #0f0e0c;
-      font-weight: 500;
+      background: #1a1916;
+      color: #f0ebe0;
       border-radius: 14px 14px 3px 14px;
+      border: 1px solid rgba(201,151,58,0.55);
     }
 
     /* ─ Typing ─ */
