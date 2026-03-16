@@ -54,12 +54,10 @@
     #sofia-btn:active { transform: scale(0.96); }
 
     #sofia-btn svg {
-      width: 28px;
-      height: 28px;
-      fill: #ffffff;
+      width: 30px;
+      height: 30px;
       position: relative;
       z-index: 1;
-      filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
     }
 
     #sofia-tooltip {
@@ -348,12 +346,13 @@
   widget.id = 'sofia-widget';
   widget.innerHTML = `
     <button id="sofia-btn" aria-label="Chat with Sofia">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" fill="white"/>
-    <path d="M13.5 7l.8 2.2L16.5 10l-2.2.8L13.5 13l-.8-2.2L10.5 10l2.2-.8L13.5 7z" fill="#c9973a"/>
-    <circle cx="8" cy="10" r="1" fill="#c9973a" opacity="0.7"/>
-  </svg>
-</button>
+      <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16 4C9.37 4 4 8.92 4 15c0 2.8 1.1 5.36 2.93 7.33L6 28l5.67-1.93C13.03 26.67 14.49 27 16 27c6.63 0 12-4.92 12-11S22.63 4 16 4z" fill="white"/>
+        <circle cx="11" cy="15" r="1.5" fill="#c9973a"/>
+        <circle cx="16" cy="15" r="1.5" fill="#c9973a"/>
+        <circle cx="21" cy="15" r="1.5" fill="#c9973a"/>
+      </svg>
+    </button>
     <div id="sofia-tooltip">Need help booking? 💛</div>
 
     <div id="sofia-chat">
@@ -371,9 +370,9 @@
       <div id="sofia-input-area">
         <textarea id="sofia-input" placeholder="Ask me anything…" rows="1"></textarea>
         <button id="sofia-send">
-         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" fill="white"/>
-</svg>
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
         </button>
       </div>
     </div>
@@ -393,7 +392,6 @@
   const sendBtn = document.getElementById('sofia-send');
   const tooltip = document.getElementById('sofia-tooltip');
 
-  // Show tooltip after 15 seconds if chat not opened
   setTimeout(() => {
     if (!isOpen && !tooltipShown) {
       tooltipShown = true;
