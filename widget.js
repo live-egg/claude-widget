@@ -367,7 +367,7 @@
   widget.innerHTML = `
     <button id="sofia-btn" aria-label="Chat with Sofia">
 <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M16 3C8.82 3 3 8.37 3 15c0 3.1 1.23 5.92 3.25 8.03L5 29l6.3-2.1C12.8 27.6 14.37 28 16 28c7.18 0 13-5.37 13-12S23.18 3 16 3z" fill="white" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))"/>
+  <path d="M16 2C8.27 2 2 7.82 2 15c0 3.3 1.3 6.3 3.45 8.55L4 30l7.2-2.4C12.67 28.18 14.3 28.5 16 28.5c7.73 0 14-5.82 14-13S23.73 2 16 2z" fill="white"/>
   <circle cx="11" cy="15" r="1.5" fill="#1a1814"/>
   <circle cx="16" cy="15" r="1.5" fill="#1a1814"/>
   <circle cx="21" cy="15" r="1.5" fill="#1a1814"/>
